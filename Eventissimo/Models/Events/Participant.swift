@@ -13,3 +13,9 @@ struct Participant {
     let person: Person
     let role: ERole
 }
+
+var newParticipant: [Participant] = [
+    Participant(person: newPerson[0],
+                role: .organizer)
+]
+

@@ -13,3 +13,8 @@ struct PrivateConversation: Identifiable {
     var messages: [MessageApp] = []
     var person: Person
 }
+
+var newPrivateConversation : [PrivateConversation] = [
+    PrivateConversation(messages: newMessageApp,
+                        person:newPerson[0])
+]

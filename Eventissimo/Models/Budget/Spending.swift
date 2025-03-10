@@ -15,3 +15,11 @@ struct Spending: Identifiable {
     var description: String?
     var person: Person
 }
+
+
+var newSpendings : [Spending] = [
+    Spending(amount: 22.5,
+             role: .food,
+             description: "Coca et Fanta",
+             person: newPerson[1])
+]

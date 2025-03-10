@@ -26,7 +26,7 @@ struct ContentView: View {
                         Image(systemName: "bubble")
                         Text("Discussions")
                     }
-                ProfileView()
+                ProfileView(person: users[0])
                     .tabItem {
                         Image(systemName: "person.circle")
                         Text("Profil")
