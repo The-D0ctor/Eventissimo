@@ -13,12 +13,3 @@ struct MessageApp: Identifiable {
     var date: Date
     var person: Person
 }
-
-var newMessageApp : [MessageApp] = [
-    MessageApp(text: "Ready to party??",
-               date: .now,
-               person: newPerson[0]),
-    MessageApp(text: "So ready! You better be prepared!",
-               date: .now,
-               person: newPerson[1])
-]

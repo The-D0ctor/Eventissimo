@@ -18,7 +18,12 @@ struct TaskApp: Identifiable {
 
 }
 
-var newTaskApp : [TaskApp] = [
+var tasks: [TaskApp] = [
     TaskApp(title: "Aller chercher le gâteau",
-            personsAssigned: newPerson)
+            description: "rendez-vous prévu à 13H15",
+            isUrgent: true,
+            personsAssigned: users),
+    TaskApp(title: "Gonfler les ballons",
+            isCompleted: true,
+            personsAssigned: users)
 ]

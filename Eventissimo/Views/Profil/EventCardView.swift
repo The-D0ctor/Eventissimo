@@ -30,16 +30,23 @@ struct EventCardView: View {
                 .frame(width: 210, height: 310)
                 .cornerRadius(20)
                 .clipped()
+            CardGradient(width: 210, height: 310)
             VStack(alignment: .leading, spacing: 5) {
                 Text(event.name)
                     .serif(size: 18)
                     .foregroundStyle(.white)
-                Text(event.date.formattedInFrench())
-                    .jakarta(size: 14)
-                    .foregroundStyle(.green200)
                 HStack {
-                    Image(systemName: "mappin.and.ellipse")
-                        .font(.system(size: 12))
+                    Image("calendar")
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                    Text(event.date.formattedInFrench())
+                        .jakarta(size: 14)
+                }
+                .foregroundStyle(.green200)
+                HStack {
+                    Image("map_pin")
+                        .resizable()
+                        .frame(width: 16, height: 16)
                     Text(event.localization.components(separatedBy: " ").first ?? "")
                         .jakarta(size: 12)
                 }

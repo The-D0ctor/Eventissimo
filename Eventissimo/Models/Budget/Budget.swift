@@ -16,9 +16,3 @@ struct Budget: Identifiable {
     var totalRemaining: Double { totalBudget - totalSpent }
     var spendings: [Spending]
 }
-
-var newBudget : [Budget] = [
-    Budget(totalSpent: 115.50,
-           totalBudget: 150.0,
-           spendings: newSpendings)
-]

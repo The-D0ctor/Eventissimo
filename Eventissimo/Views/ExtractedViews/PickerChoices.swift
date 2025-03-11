@@ -20,13 +20,14 @@ struct PickerChoices: View {
             
             HStack {
                 ForEach(choices.listChoices.indices, id: \.self) { option in
-                    
                     Button {
-                        choices.selectedChoice = option
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            choices.selectedChoice = option
+                        }
                     } label: {
                         Text(" \(choices.listChoices[option])")
                             .jakarta(size: 12)
-                            
+                        
                     }
                     .bold(choices.selectedChoice == option)
                     .frame(maxWidth: .infinity)

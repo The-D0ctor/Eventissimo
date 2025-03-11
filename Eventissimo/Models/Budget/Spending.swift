@@ -12,14 +12,6 @@ struct Spending: Identifiable {
     
     var amount: Double
     var role: EBudgetCategory
-    var description: String?
+    var descriptionSpend: String?
     var person: Person
 }
-
-
-var newSpendings : [Spending] = [
-    Spending(amount: 22.5,
-             role: .food,
-             description: "Coca et Fanta",
-             person: newPerson[1])
-]

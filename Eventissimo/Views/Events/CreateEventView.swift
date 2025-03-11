@@ -11,24 +11,30 @@ struct CreateEventView: View {
     init() {
         // Customize the appearance of the page control (dots)
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.green500// Active dot color
-        UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkblue200 // Inactive dot color
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkblue50 // Inactive dot color
+
     }
+    @State var selectedTab = 0
     var body: some View {
-        Text("Create Event")
-            .font(.title)
-            .padding()
+        Text("Créer un Événement")
+            .jakarta(size: 30)
+            .padding(.top, 60)
         
-        TabView {
+        TabView (selection: $selectedTab){
             
-            NameEventQuestion()
-            PictureQuestion()
-            WhenWhereQuestion()
-            TeamQuestion()
+            NameEventQuestion(selectedTab : $selectedTab)
+                .tag(0)
+            PictureQuestion(selectedTab : $selectedTab)
+                .tag(1)
+            WhenWhereQuestion(selectedTab : $selectedTab)
+                .tag(2)
+            TeamQuestion(selectedTab : $selectedTab)
+                .tag(3)
             
             
         }.tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
-        
+            .indexViewStyle(.page(backgroundDisplayMode: .never))
+
         
     }
 }

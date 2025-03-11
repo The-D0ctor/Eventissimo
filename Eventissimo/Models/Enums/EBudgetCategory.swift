@@ -8,7 +8,7 @@ import Foundation
 import SwiftUI
 
 enum EBudgetCategory: String {
-    case food = "Nourriture"
+    case food = "Alimentation"
     case transportation = "Transports et hébergement"
     case entertainment = "Animation"
     case decorations = "Décorations"
@@ -18,17 +18,17 @@ enum EBudgetCategory: String {
     var color: Color {
         switch self {
         case .food:
-            return .green500
+            return Color.green500
         case .transportation:
-            return .init(red: 207/255, green: 120/255, blue: 120/255)
+            return Color.redCategoryBudget
         case .entertainment:
-            return .init(red: 195/255, green: 120/255, blue: 207/255)
+            return Color.purpleCategoryBudget
         case .decorations:
-            return .init(red: 120/255, green: 188/255, blue: 207/255)
+            return Color.blueCategoryBudget
         case .rentals:
-               return .init(red: 120/255, green: 126/255, blue: 207/255)
+            return Color.darkBlueCategoryBudget
         case .other:
-             return   .init(red: 220/255, green: 152/255, blue: 103/255)
+            return  Color.orangeCategoryBudget
         }
     }
 }
