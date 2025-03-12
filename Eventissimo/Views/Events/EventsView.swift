@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import SimpleCalendar
 
 struct EventsView: View {
-    @State var calendarModalPresented: Bool = false
-    @State var activeID: Int? = 0
     @State var selectedDate: Date = Date.now
+    @State var calendarEvents: [any CalendarEventRepresentable] = events.map { event in
+        event.calendarEvent
+    }
     
     init() {
         UINavigationBar.appearance().titleTextAttributes = [
@@ -30,11 +32,11 @@ struct EventsView: View {
                         
                         ScrollView(.horizontal) {
                             HStack {
-                                ForEach(events.indices, id: \.self) { indice in
+                                ForEach(events) { event in
                                     NavigationLink {
-                                        
+                                        EventPageView(eventPage: event)
                                     } label: {
-                                        EventItemView(event: events[indice])
+                                        EventItemView(event: event)
                                         .scrollTransition() { content, phase in
                                             content.rotationEffect(.radians(phase.value / 5), anchor: .bottom)
                                         }
@@ -48,7 +50,6 @@ struct EventsView: View {
                             .offset(y: -35)
                             .scrollTargetLayout()
                         }
-                        .scrollPosition(id: $activeID)
                         .safeAreaPadding(.horizontal, padding)
                         .scrollIndicators(.hidden)
                         .scrollTargetBehavior(.viewAligned)
@@ -57,7 +58,7 @@ struct EventsView: View {
                     .frame(height: 472.5)
                     VStack {
                         NavigationLink {
-                            
+                            CreateEventView()
                         } label: {
                             Image("plus")
                                 .resizable()
@@ -79,12 +80,14 @@ struct EventsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        if (activeID != nil) {
-                            selectedDate = events[activeID!].date
-                            calendarModalPresented.toggle()
+                    NavigationLink {
+                        SimpleCalendarView(events: $calendarEvents, selectedDate: $selectedDate, selectionAction: .destination({ calendar in
+                            EventPageView(eventPage: events.first(where: { event in
+                                event.id == UUID(uuidString: calendar.id)
+                            })!)
+                        })).background(Color.darkblue50)
                         }
-                    } label: {
+                    label: {
                         Image("calendar")
                             .resizable()
                             .frame(width: 20, height: 20)
@@ -94,14 +97,6 @@ struct EventsView: View {
                     }
                     .padding(.trailing)
                 }
-            }
-            .sheet(isPresented: $calendarModalPresented) {
-                DatePicker(selection: $selectedDate, in: selectedDate...selectedDate, displayedComponents: .date, label: {
-                    
-                })
-                .datePickerStyle(.graphical)
-                //.disabled(true)
-                .presentationDetents([.fraction(0.6)])
             }
         }
     }

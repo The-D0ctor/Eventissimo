@@ -158,7 +158,7 @@ let events: [Event] = [
           participants: [Participant(person: users[0], role: .organizer), Participant(person: users[1], role: .guest), Participant(person: users[2], role: .guest), Participant(person: users[3], role: .guest)],
           image: "birthdayMarionEvent",
           tasks: [],
-          budget: Budget(totalSpent: 0, totalBudget: 0, spendings: []),
+          budget: Budget(totalBudget: 0, spendings: []),
           eventMessages: []),
     Event(name: "Anniversaire de Lola",
           description: "Je vous invite à mon anniversaire ce week-end ! 🎉 Sur le thème films Disney, venez déguisés 😳",
@@ -167,7 +167,7 @@ let events: [Event] = [
           participants: [Participant(person: users[0], role: .organizer), Participant(person: users[1], role: .guest), Participant(person: users[4], role: .guest), Participant(person: users[5], role: .guest), Participant(person: users[6], role: .guest), Participant(person: users[7], role: .guest)],
           image: "brithdayLolaEvent",
           tasks: newTaskApp,
-          budget: Budget(totalSpent: 0, totalBudget: 0, spendings: []),
+          budget: Budget(totalBudget: 0, spendings: []),
           eventMessages: []),
     Event(name: "Nouvel an",
           description: "Mettre une description ici",
@@ -176,7 +176,7 @@ let events: [Event] = [
           participants: [Participant(person: users[0], role: .guest), Participant(person: users[2], role: .guest), Participant(person: users[9], role: .guest), Participant(person: users[5], role: .guest), Participant(person: users[4], role: .guest)],
           image: "newYearEvent",
           tasks: [],
-          budget: Budget(totalSpent: 0, totalBudget: 0, spendings: []),
+          budget: Budget(totalBudget: 0, spendings: []),
           eventMessages: []),
     Event(name: "Vide grenier",
           description: "Mettre une description ici",
@@ -185,7 +185,7 @@ let events: [Event] = [
           participants: [Participant(person: users[2], role: .guest), Participant(person: users[8], role: .guest), Participant(person: users[3], role: .guest), Participant(person: users[9], role: .guest)],
           image: "brocanteEvent",
           tasks: [],
-          budget: Budget(totalSpent: 0, totalBudget: 0, spendings: []),
+          budget: Budget(totalBudget: 0, spendings: []),
           eventMessages: []),
     Event(name: "Fête de la Saint-Jean",
           description: "Mettre une description ici",
@@ -194,7 +194,7 @@ let events: [Event] = [
           participants: [Participant(person: users[0], role: .guest), Participant(person: users[6], role: .guest), Participant(person: users[3], role: .guest), Participant(person: users[8], role: .guest), Participant(person: users[7], role: .guest)],
           image: "village1Event",
           tasks: [],
-          budget: Budget(totalSpent: 0, totalBudget: 0, spendings: []),
+          budget: Budget(totalBudget: 0, spendings: []),
           eventMessages: []),
 ]
 
@@ -257,11 +257,8 @@ var sprendingsFeteSaintJean : [Spending] = [
 // MARK: - BUDGET
 
 
-var newBudget : [Budget] = [
-    Budget(totalSpent: 115.50,
-           totalBudget: 150.0,
-           spendings: sprendingsAnnivMarion)
-]
+var budgetAnnivMarion: Budget = Budget(totalBudget: 1000, spendings: sprendingsAnnivMarion)
+var budgetFeteSaintJean: Budget = Budget(totalBudget: 700, spendings: sprendingsFeteSaintJean)
 
 
 

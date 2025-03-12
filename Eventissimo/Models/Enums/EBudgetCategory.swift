@@ -7,7 +7,7 @@
 import Foundation
 import SwiftUI
 
-enum EBudgetCategory: String {
+enum EBudgetCategory: String, CaseIterable {
     case food = "Alimentation"
     case transportation = "Transports et hébergement"
     case entertainment = "Animation"

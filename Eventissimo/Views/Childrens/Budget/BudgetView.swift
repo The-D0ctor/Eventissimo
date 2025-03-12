@@ -16,21 +16,22 @@ struct BudgetView: View {
         ZStack{
             Color.darkblue50
                 .ignoresSafeArea()
-            VStack{
-                PickerChoices(choices: listOptions)
+            ScrollView{
+                VStack{
+                    PickerChoices(choices: listOptions)
                     
-                
-                switch listOptions.selectedChoice {
-                case 0:
-                    BudgetGlobalView()
-                case 1:
-                    ProfileView(person: users[0])
-                default:
-                    Text("")
+                    
+                    switch listOptions.selectedChoice {
+                    case 0:
+                        BudgetGlobalView(viewModel: BudgetViewModel(budget: budgetAnnivMarion))
+                    case 1:
+                        TasksView()
+                    default:
+                        Text("")
+                    }
                 }
+                .padding(24)
             }
-            .padding()
-            
         }
     }
 }

@@ -8,30 +8,32 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
         ZStack {
             TabView {
                 EventsView()
                     .tabItem {
-                        Image(systemName: "calendar")
+                        Image("calendar")
                         Text("Événements")
                     }
                 TasksView()
                     .tabItem {
-                        Image(systemName: "list.bullet.clipboard")
+                        Image("tasks")
                         Text("Tâches")
                     }
                 DiscussionsView()
                     .tabItem {
-                        Image(systemName: "bubble")
+                        Image("discussions")
                         Text("Discussions")
                     }
                 ProfileView(person: users[0])
                     .tabItem {
-                        Image(systemName: "person.circle")
+                        Image("profile")
                         Text("Profil")
                     }
             }
+            .tint(.green700)
         }
     }
 }

@@ -30,12 +30,18 @@ struct EventItemView: View {
                     .serif(size: 22)
                 HStack {
                     Image("calendar")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 16, height: 16)
                     Text(dateFormatter.string(from: event.date))
                         .jakarta(size: 14)
                         .fontWeight(.medium)
                 }
                 HStack {
                     Image("map_pin")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 16, height: 16)
                     Text(event.localization)
                         .jakarta(size: 12)
                 }

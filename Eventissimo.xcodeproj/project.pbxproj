@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2C6638E02D803F370060891F /* SimpleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 2C6638DF2D803F370060891F /* SimpleCalendar */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		2C2620B82D78831A0010D0E7 /* Eventissimo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eventissimo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C6638E02D803F370060891F /* SimpleCalendar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = Eventissimo;
 			packageProductDependencies = (
+				2C6638DF2D803F370060891F /* SimpleCalendar */,
 			);
 			productName = Eventissimo;
 			productReference = 2C2620B82D78831A0010D0E7 /* Eventissimo.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = 2C2620AF2D78831A0010D0E7;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2C6638DE2D803F370060891F /* XCRemoteSwiftPackageReference "SimpleCalendar" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2C2620B92D78831A0010D0E7 /* Products */;
 			projectDirPath = "";
@@ -347,6 +356,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2C6638DE2D803F370060891F /* XCRemoteSwiftPackageReference "SimpleCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ppeelen/SimpleCalendar.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2C6638DF2D803F370060891F /* SimpleCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C6638DE2D803F370060891F /* XCRemoteSwiftPackageReference "SimpleCalendar" */;
+			productName = SimpleCalendar;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2C2620B02D78831A0010D0E7 /* Project object */;
 }
