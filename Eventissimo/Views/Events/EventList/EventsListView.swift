@@ -8,7 +8,7 @@
 import SwiftUI
 import SimpleCalendar
 
-struct EventsView: View {
+struct EventsListView: View {
     @State var selectedDate: Date = Date.now
     @State var calendarEvents: [any CalendarEventRepresentable] = events.map { event in
         event.calendarEvent
@@ -25,7 +25,7 @@ struct EventsView: View {
         NavigationStack {
             ZStack {
                 Color.darkblue50.ignoresSafeArea()
-                VStack {
+                VStack(spacing: 0) {
                     GeometryReader { proxy in
                         let size = proxy.size
                         let padding = (size.width - 300) / 2
@@ -34,9 +34,9 @@ struct EventsView: View {
                             HStack {
                                 ForEach(events) { event in
                                     NavigationLink {
-                                        EventPageView(eventPage: event)
+                                        EventPageView(event: event)
                                     } label: {
-                                        EventItemView(event: event)
+                                        EventsListItemView(event: event)
                                         .scrollTransition() { content, phase in
                                             content.rotationEffect(.radians(phase.value / 5), anchor: .bottom)
                                         }
@@ -60,13 +60,7 @@ struct EventsView: View {
                         NavigationLink {
                             CreateEventView()
                         } label: {
-                            Image("plus")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                                .padding(15)
-                                .background(Color.darkblue700)
-                                .clipShape(Circle())
-                                .foregroundStyle(.white)
+                            LabelButtonPlusView()
                         }
                         .frame(width: 60, height: 60)
                         Text("Créer un évènement")
@@ -82,7 +76,7 @@ struct EventsView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         SimpleCalendarView(events: $calendarEvents, selectedDate: $selectedDate, selectionAction: .destination({ calendar in
-                            EventPageView(eventPage: events.first(where: { event in
+                            EventPageView(event: events.first(where: { event in
                                 event.id == UUID(uuidString: calendar.id)
                             })!)
                         })).background(Color.darkblue50)
@@ -117,5 +111,5 @@ struct EventsView: View {
 }
 
 #Preview {
-    EventsView()
+    EventsListView()
 }

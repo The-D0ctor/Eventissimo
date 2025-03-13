@@ -7,13 +7,13 @@
 import Foundation
 import SwiftUI
 
-enum EBudgetCategory: String, CaseIterable {
+enum EBudgetCategory: String, CaseIterable, Comparable {
     case food = "Alimentation"
-    case transportation = "Transports et hébergement"
+    case transportation = "Hébergement et transport"
     case entertainment = "Animation"
     case decorations = "Décorations"
     case rentals = "Location de biens"
-    case other = "Autre"
+    case other = "Non déterminée"
     
     var color: Color {
         switch self {
@@ -30,5 +30,31 @@ enum EBudgetCategory: String, CaseIterable {
         case .other:
             return  Color.orangeCategoryBudget
         }
+    }
+    
+    var icon: String {
+        switch self {
+        case .food:
+            return "fork.knife"
+        case .transportation:
+            return "car.fill"
+        case .entertainment:
+            return "gamecontroller.fill"
+        case .decorations:
+            return "balloon.2.fill"
+        case .rentals:
+            return "house.fill"
+        case .other:
+            return  "questionmark"
+        }
+    }
+    
+    static func < (a: EBudgetCategory, z: EBudgetCategory) -> Bool {
+        if (a == .other) {
+            return false
+        } else if (z == .other) {
+            return true
+        }
+        return a.rawValue < z.rawValue
     }
 }

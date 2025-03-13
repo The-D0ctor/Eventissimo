@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DiscussionsView: View {
+    @State var listOptions: PickerChoiceViewModel = PickerChoiceViewModel(listChoices: ["Amis", "Évènements"])
+    
     init() {
         UINavigationBar.appearance().titleTextAttributes = [
             .foregroundColor: UIColor.darkblue900,
@@ -19,7 +21,20 @@ struct DiscussionsView: View {
         NavigationStack {
             ZStack {
                 Color.darkblue50.ignoresSafeArea()
-                PickerChoices(choices: PickerChoiceViewModel(listChoices: ["Amis", "Évènements"]))
+                VStack {
+                    PickerChoices(choices: listOptions)
+                    TabView(selection: $listOptions.selectedChoice) {
+                        DiscussionsListView(privateConversationsList: newPrivateConversation.filter({ privateConversation in
+                            privateConversation.person1.id == marion.id || privateConversation.person2.id == marion.id
+                        }))
+                            .tag(0)
+                        DiscussionsListView(eventsList: events)
+                            .tag(1)
+                    }
+                    .foregroundStyle(.darkblue900)
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .padding(.top, 5)
+                }.padding()
             }
             .navigationTitle("Mes messages")
             .navigationBarTitleDisplayMode(.inline)

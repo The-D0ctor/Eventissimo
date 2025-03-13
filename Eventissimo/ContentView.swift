@@ -12,12 +12,12 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             TabView {
-                EventsView()
+                EventsListView()
                     .tabItem {
                         Image("calendar")
                         Text("Événements")
                     }
-                TasksView()
+                MyListTaskView()
                     .tabItem {
                         Image("tasks")
                         Text("Tâches")

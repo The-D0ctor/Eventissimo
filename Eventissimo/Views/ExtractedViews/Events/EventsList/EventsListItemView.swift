@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EventItemView: View {
+struct EventsListItemView: View {
     var event: Event
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -54,5 +54,5 @@ struct EventItemView: View {
 }
 
 #Preview {
-    EventItemView(event: events[0])
+    EventsListItemView(event: events[0])
 }

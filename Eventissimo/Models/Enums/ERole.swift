@@ -6,8 +6,8 @@
 //
 
 
-enum ERole {
-    case organizer
-    case volunteer
-    case guest
+enum ERole: String, CaseIterable {
+    case organizer = "Organisateur"
+    case volunteer = "Bénévole"
+    case guest = "Invité(e)"
 }

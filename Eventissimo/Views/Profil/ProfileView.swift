@@ -23,26 +23,6 @@ struct ProfileView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
-                    Image(systemName: "gearshape")
-                        .opacity(0)
-                        .padding(10)
-                    Spacer()
-                    Text("Mon profil")
-                        .serif(size: 24)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.darkblue700)
-                    Spacer()
-                    NavigationLink {
-                        SettingsGeneralView()
-                    } label: {
-                        Image(systemName: "gearshape")
-                            .font(.system(size: 24))
-                            .foregroundStyle(.darkblue700)
-                            .padding(10)
-                    }
-                }
-                .padding(.horizontal)
                 ScrollView {
                     VStack(spacing: 10) {
                         if let profilePicture = person.profilePicture {
@@ -124,13 +104,34 @@ struct ProfileView: View {
                             HStack(spacing: 14) {
                                 ForEach(getEventsForUser(), id: \.name) { event in
                                     NavigationLink {
-                                        EventPageView(eventPage: event)
+                                        EventPageView(event: event)
                                     } label: {
                                         EventCardView(event: event)
                                     }
                                 }
                             }
                             .padding(.horizontal, 24)
+                        }
+                    }
+                    .padding(.bottom, 24)
+                }
+                .onAppear(perform: {
+                    UINavigationBar.appearance().titleTextAttributes = [
+                        .foregroundColor: UIColor.darkblue900,
+                        .font: UIFont(name: "DM Serif Display", size: 24)!
+                    ]
+                })
+                .navigationTitle("Mon profil")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink {
+                            SettingsGeneralView()
+                        } label: {
+                            Image(systemName: "gearshape")
+                                .font(.system(size: 24))
+                                .foregroundStyle(.darkblue700)
+                                .padding(10)
                         }
                     }
                 }

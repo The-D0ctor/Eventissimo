@@ -11,5 +11,6 @@ struct PrivateConversation: Identifiable {
     let id: UUID = UUID()
     
     var messages: [MessageApp] = []
-    var person: Person
+    var person1: Person
+    var person2: Person
 }

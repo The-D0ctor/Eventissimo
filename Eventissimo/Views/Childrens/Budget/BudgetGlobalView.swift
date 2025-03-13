@@ -20,11 +20,11 @@ struct BudgetGlobalView: View {
                 }
                 HStack(spacing:0){
                     
-                    ForEach(Array(viewModel.listSpendingsByCategory.keys), id: \.self) { key in
+                    ForEach(viewModel.listSpendingsByCategory.keys.sorted(), id: \.self) { key in
                         if let spendings = viewModel.listSpendingsByCategory[key]{
                             if !spendings.isEmpty{
                                 Rectangle()
-                                    .frame(width: geometry.size.width * (viewModel.additionSpendingByCategory(listSpendings: spendings)/100))
+                                    .frame(width: geometry.size.width * (viewModel.additionSpendingByCategory(listSpendings: spendings)/viewModel.budget.totalBudget))
                                     .foregroundStyle(spendings[0].role.color)
                                 
                             }}}
@@ -89,7 +89,7 @@ struct BudgetGlobalView: View {
             .padding()
             .foregroundStyle(Color.darkblue700)
             
-            ForEach(Array(viewModel.listSpendingsByCategory.keys), id: \.self) { key in
+            ForEach(viewModel.listSpendingsByCategory.keys.sorted(), id: \.self) { key in
                 if let spendings = viewModel.listSpendingsByCategory[key]{
                     if !spendings.isEmpty{
                         
@@ -97,6 +97,10 @@ struct BudgetGlobalView: View {
                             Circle()
                                 .foregroundStyle(spendings[0].role.color)
                                 .frame(width: 14, height: 14)
+                            Image(systemName: spendings[0].role.icon)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 16, height: 16)
                             Text(spendings[0].role.rawValue)
                                 .jakarta(size: 16)
                             
@@ -113,11 +117,12 @@ struct BudgetGlobalView: View {
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.top)
         
-        ForEach(Array(viewModel.listSpendingsByCategory.keys), id: \.self) { key in
+        ForEach(viewModel.listSpendingsByCategory.keys.sorted(), id: \.self) { key in
             if let spendings = viewModel.listSpendingsByCategory[key]{
                 if !spendings.isEmpty{
                     VStack{
                         HStack{
+                            Image(systemName: spendings[0].role.icon)
                             Text("\(key.rawValue)")
                                 .jakarta(size: 16)
                             
@@ -142,6 +147,7 @@ struct BudgetGlobalView: View {
                                 
                                 Divider()
                                     .padding(.vertical, 5)
+                                    
                                 
                                 OneSpending(spend: spend)
                             }

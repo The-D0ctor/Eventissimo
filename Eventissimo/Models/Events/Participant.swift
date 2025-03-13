@@ -9,8 +9,10 @@ import Foundation
 
 
 
-struct Participant {
-    let person: Person
-    let role: ERole
+struct Participant: Identifiable {
+    let id: UUID = UUID()
+    
+    var person: Person
+    var role: ERole?
 }
 

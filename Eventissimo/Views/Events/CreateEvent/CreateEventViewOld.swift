@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateEventView: View {
+struct CreateEventViewOld: View {
     @State var eventName = ""
     var body: some View {
         NavigationStack {

@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct PersonalTasksListView: View {
-    var tasksList: [TaskApp]
+@State var tasksList: [TaskApp]
     @StateObject var viewModel = TaskViewModel()
     var body: some View {
         
-        ForEach(tasksList) { taskApp in
+        ForEach($tasksList) { $taskApp in
             HStack {
                 // faire en sorte que mon bouton retienne son Bool
                 // mettre en place un SwiftData pour sauvegarder les tâches réalisées
                 Button {
-//                    viewmodel.toogleIsCompleted(task: taskApp)
+                    taskApp.isCompleted.toggle()
+                    
                 } label: {
                     ZStack {
                         Rectangle()
@@ -39,12 +40,12 @@ struct PersonalTasksListView: View {
                     Text(taskApp.title)
                         .strikethrough(taskApp.isCompleted)
                         .foregroundStyle(taskApp.isCompleted ? .white:.darkblue900)
-                        .font(.system(size: 12))
+                        .jakarta(size: 12)
                         .lineLimit(1)
                     
                     if (taskApp.description != nil) {
                         Text(taskApp.description ?? "")
-                            .font(.system(size: 10))
+                            .jakarta(size: 10)
                             .foregroundStyle(.gray.mix(with: .darkblue900, by: 0.4))
                             .lineLimit(1)
                     }
@@ -55,7 +56,7 @@ struct PersonalTasksListView: View {
                     isUrgentExtracted()
                 }
             }
-            .padding()
+            .padding(12)
             .background(taskApp.isCompleted ? .green500: .green200.mix(with: .white, by: 0.25))
             .cornerRadius(11)
             .overlay(

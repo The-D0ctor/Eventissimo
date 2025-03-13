@@ -122,8 +122,11 @@ var emma: Person = Person(
 
 // 👇 liste des personnes
 var users: [Person] = [
-    marion, alexandre, sophie, jules, camille, nicolas, elise, lola, thomas, emma
+    marion, alexandre, sophie, jules, lucas, camille, nicolas, elise, lola, thomas, emma
 ]
+
+// 🙋‍♀️ création d'une variable "fake" tous les users = tous les invités en tableau de participants
+var allInvited = [Participant(person: marion, role: nil), Participant(person: alexandre, role: nil), Participant(person: sophie, role: nil), Participant(person: jules, role: nil), Participant(person: camille, role: nil), Participant(person: nicolas, role: nil), Participant(person: elise, role: nil), Participant(person: thomas, role: nil), Participant(person: emma, role: nil)]
 
 // MARK: - PARTICIPANTS
 
@@ -156,17 +159,19 @@ let events: [Event] = [
           date: Date.now,
           localization: "Lyon - 18 rue du lac",
           participants: [Participant(person: users[0], role: .organizer), Participant(person: users[1], role: .guest), Participant(person: users[2], role: .guest), Participant(person: users[3], role: .guest)],
+          guests: allInvited,
           image: "birthdayMarionEvent",
-          tasks: [],
+          tasks: [tasks[0],tasks[1]],
           budget: Budget(totalBudget: 0, spendings: []),
-          eventMessages: []),
+          eventMessages: newMessageApp),
     Event(name: "Anniversaire de Lola",
           description: "Je vous invite à mon anniversaire ce week-end ! 🎉 Sur le thème films Disney, venez déguisés 😳",
           date: Calendar.current.date(from: DateComponents(year: 2025, month: 02, day: 12, hour: 19, minute: 0)) ?? Date(),
           localization: "Lyon - 250 rue Inkermann",
           participants: [Participant(person: users[0], role: .organizer), Participant(person: users[1], role: .guest), Participant(person: users[4], role: .guest), Participant(person: users[5], role: .guest), Participant(person: users[6], role: .guest), Participant(person: users[7], role: .guest)],
+          guests: allInvited,
           image: "brithdayLolaEvent",
-          tasks: newTaskApp,
+          tasks: [tasks[2],tasks[3],tasks[4]],
           budget: Budget(totalBudget: 0, spendings: []),
           eventMessages: []),
     Event(name: "Nouvel an",
@@ -174,8 +179,9 @@ let events: [Event] = [
           date: Calendar.current.date(from: DateComponents(year: 2024, month: 12, day: 31)) ?? Date(),
           localization: "Tarare - 22 rue des peupliers",
           participants: [Participant(person: users[0], role: .guest), Participant(person: users[2], role: .guest), Participant(person: users[9], role: .guest), Participant(person: users[5], role: .guest), Participant(person: users[4], role: .guest)],
+          guests: allInvited,
           image: "newYearEvent",
-          tasks: [],
+          tasks: [tasks[5],tasks[6]],
           budget: Budget(totalBudget: 0, spendings: []),
           eventMessages: []),
     Event(name: "Vide grenier",
@@ -183,8 +189,9 @@ let events: [Event] = [
           date: Calendar.current.date(from: DateComponents(year: 2024, month: 06, day: 29)) ?? Date(),
           localization: "Vauban - rue Principale",
           participants: [Participant(person: users[2], role: .guest), Participant(person: users[8], role: .guest), Participant(person: users[3], role: .guest), Participant(person: users[9], role: .guest)],
+          guests: allInvited,
           image: "brocanteEvent",
-          tasks: [],
+          tasks: [tasks[7],tasks[8],tasks[9]],
           budget: Budget(totalBudget: 0, spendings: []),
           eventMessages: []),
     Event(name: "Fête de la Saint-Jean",
@@ -192,8 +199,9 @@ let events: [Event] = [
           date: Calendar.current.date(from: DateComponents(year: 2024, month: 06, day: 24)) ?? Date(),
           localization: "Sancé - salle des fêtes",
           participants: [Participant(person: users[0], role: .guest), Participant(person: users[6], role: .guest), Participant(person: users[3], role: .guest), Participant(person: users[8], role: .guest), Participant(person: users[7], role: .guest)],
+          guests: allInvited,
           image: "village1Event",
-          tasks: [],
+          tasks: [tasks[10],tasks[11],tasks[12]],
           budget: Budget(totalBudget: 0, spendings: []),
           eventMessages: []),
 ]
@@ -215,7 +223,17 @@ var newMessageApp: [MessageApp] = [
 
 var newPrivateConversation : [PrivateConversation] = [
     PrivateConversation(messages: newMessageApp,
-                        person:Person(name: "Romain", email: "romain@gmail.com", pronouns: .heHim))
+                        person1:alexandre, person2: marion),
+    PrivateConversation(messages: [],
+                        person1:alexandre, person2: sophie),
+    PrivateConversation(messages: [],
+                        person1:marion, person2: sophie),
+    PrivateConversation(messages: [],
+                        person1:jules, person2: marion),
+    PrivateConversation(messages: [],
+                        person1:marion, person2: camille),
+    PrivateConversation(messages: [],
+                        person1:nicolas, person2: marion)
 ]
 
 
@@ -264,10 +282,60 @@ var budgetFeteSaintJean: Budget = Budget(totalBudget: 700, spendings: sprendings
 
 // MARK: - TASKS
 
-var newTaskApp : [TaskApp] = [
+let tasks: [TaskApp] = [
     TaskApp(title: "Aller chercher le gâteau",
-            isCompleted: true, personsAssigned: users),
+            description: "rendez-vous prévu à 13H15",
+            isUrgent: true,
+            personsAssigned: [users[1],users[4]]),
     
-    TaskApp(title: "emballer le cadeau",
-            personsAssigned: [alexandre, jules])
+    TaskApp(title: "Gonfler les ballons",
+            isCompleted: true,
+            personsAssigned: [users[0],users[2],users[7]]),
+    
+    TaskApp(title: "Préparer la liste des invités",
+            description: "Se concerter avec Emma",
+            isUrgent: true,
+            personsAssigned: [users[0],users[10]]),
+    
+    TaskApp(title: "Réserver un lieu",
+            isCompleted: true,
+            personsAssigned: users),
+    
+    TaskApp(title: "Acheter un cadeau",
+            description: "Chercher chez Sephora",
+            isUrgent: true,
+            personsAssigned: users),
+    
+    TaskApp(title: "Organiser le repas",
+            description: "Mettre en place un budget",
+            personsAssigned: users),
+    
+    TaskApp(title: "Prévoir les décorations",
+            isUrgent: true,
+            personsAssigned: users),
+        
+    TaskApp(title: "Préparer les objets à vendre",
+            description: "Faire le tri dans la cave",
+            personsAssigned: users),
+    TaskApp(title: "Appeler Camille l'installation",
+            description: "Si pas dispo, voir avec Thomas",
+            personsAssigned: users),
+    
+    TaskApp(title: "Réserver l'emplacement du stand",
+            description: "Auprès de la mairie",
+            personsAssigned: users),
+    
+    TaskApp(title: "Organiser un feu de joie",
+            description: "Sécuriser la zone",
+            isCompleted: true,
+            isUrgent: true,
+            personsAssigned: users),
+    
+    TaskApp(title: "Prévoir un repas collectif",
+            description: " Répartir les dépenses",
+            personsAssigned: users),
+    
+    TaskApp(title: "Ajouter les participants à la liste",
+            personsAssigned: users)
+    
 ]

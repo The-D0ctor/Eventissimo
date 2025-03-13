@@ -13,7 +13,7 @@ struct PersonalEventTasksCardView: View {
     var body: some View {
         VStack{
             NavigationLink {
-                TasksView()
+                EventListTaskView(tasksList:events[0].tasks)
             } label: {
                 HStack{
                     Image(event.image)

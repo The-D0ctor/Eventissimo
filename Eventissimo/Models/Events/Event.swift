@@ -15,6 +15,13 @@ struct Event: Identifiable {
     var date: Date
     var localization: String
     var participants: [Participant]
+    var guests: [Participant]
+    var nonParticipants: [Participant] {
+        guests.filter { participant in
+            !participants.contains { $0.person.id == participant.person.id }
+        }
+    }
+    
     var image: String
     var tasks: [TaskApp]
     var budget: Budget

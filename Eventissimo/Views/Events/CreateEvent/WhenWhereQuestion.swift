@@ -11,6 +11,12 @@ struct WhenWhereQuestion: View {
     @State var EventselectedDate: Date = Date()
     @State var localization = ""
     @Binding var selectedTab: Int
+    @State var isPopoverShown: Bool = false
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy HH:mm"
+        return formatter
+    }
 
     var body: some View {
         ZStack{
@@ -30,7 +36,23 @@ struct WhenWhereQuestion: View {
                 Text("Et quand?")
                     .jakarta(size: 18)
                     .multilineTextAlignment(.center)
-                DatePicker("",
+                Text(dateFormatter.string(from: EventselectedDate))
+                Button {
+                    isPopoverShown.toggle()
+                } label: {
+                    Text("test")
+                }.sheet(isPresented: $isPopoverShown) {
+                    DatePicker("",
+                                selection: $EventselectedDate,
+                                displayedComponents: [.date, .hourAndMinute]
+                     )
+                    .datePickerStyle(.graphical)
+                    .background(Color.white)
+                    .tint(.green650)
+                    .presentationDetents([.fraction(0.6)])
+                }
+
+                /*DatePicker("",
                             selection: $EventselectedDate,
                             displayedComponents: [.date, .hourAndMinute]
                  )
@@ -38,7 +60,7 @@ struct WhenWhereQuestion: View {
                  .labelsHidden()
                  .padding(10)
                  .background(Color.white)
-                 .cornerRadius(20)
+                 .cornerRadius(20)*/
                 HStack {
                     Button {
                         withAnimation {

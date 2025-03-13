@@ -14,27 +14,14 @@ class PickerChoiceViewModel: Identifiable {
     var id = UUID()
     var selectedChoice: Int
     var listChoices: [String]
-    var selectedButtonBackgroundColor: Color = .green500
-    var TextColor: Color = .darkblue700
-   
-
+    var selectedButtonBackgroundColor: Color
+    var textColor: Color
     
-    
-    init(listChoices: [String], selectedChoice: Int = 0) {
+    init(listChoices: [String], selectedChoice: Int = 0, selectedButtonBackgroundColor: Color = .green650, textColor: Color = .darkblue700) {
         self.id = UUID()
         self.selectedChoice = selectedChoice
         self.listChoices = listChoices
-        
+        self.selectedButtonBackgroundColor = selectedButtonBackgroundColor
+        self.textColor = textColor
     }
-    
-    
 }
-
-
-//enum PickerSelectionType {
-//    case 1
-//    case 2
-//    case 3
-//    case 4
-//    case 5
-//}

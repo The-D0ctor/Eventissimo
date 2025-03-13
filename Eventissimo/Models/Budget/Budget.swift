@@ -43,7 +43,6 @@ class Budget: Identifiable {
                 listSpendings.append(spending)
             }
         }
-        print(listSpendings)
         return listSpendings
     }
 }

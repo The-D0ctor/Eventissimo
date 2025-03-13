@@ -27,15 +27,14 @@ struct PickerChoices: View {
                     } label: {
                         Text(" \(choices.listChoices[option])")
                             .jakarta(size: 12)
+                            .frame(maxWidth: .infinity)
                         
                     }
                     .bold(choices.selectedChoice == option)
-                    .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
-                    
-                    .foregroundStyle(choices.TextColor)
+                    .foregroundStyle(choices.selectedChoice == option ? Color.white : Color.darkblue200)
                     .background(choices.selectedChoice == option ? choices.selectedButtonBackgroundColor : Color.clear)
-                    .clipShape(RoundedRectangle(cornerRadius: 50))
+                    .clipShape(Capsule())
                     .padding(.vertical, 4)
                     .padding(.horizontal, 4)
                     
@@ -52,5 +51,5 @@ struct PickerChoices: View {
 }
 
 #Preview {
-    PickerChoices(choices: PickerChoiceViewModel( listChoices: ["Option 1", "Option 2"]))
+    PickerChoices(choices:PickerChoiceViewModel( listChoices: ["Option 1", "Option 2"]))
 }
