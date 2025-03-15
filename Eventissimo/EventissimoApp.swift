@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct EventissimoApp: App {
+    private var dataBase = DataBase()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(dataBase)
         }
     }
 }

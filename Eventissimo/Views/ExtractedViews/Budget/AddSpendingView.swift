@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddSpendingView: View {
+    @Environment(DataBase.self) var dataBase
     
     @State var viewModel: BudgetViewModel
     
@@ -33,7 +34,7 @@ struct AddSpendingView: View {
             
             Button(action:{
                 if viewModel.newAmount != 0{
-                    viewModel.addSpending(spending: Spending(amount: viewModel.newAmount, role: viewModel.selectedCategory, descriptionSpend: viewModel.addDescription, person: alexandre))
+                    viewModel.addSpending(spending: Spending(amount: viewModel.newAmount, role: viewModel.selectedCategory, descriptionSpend: viewModel.addDescription, person: dataBase.currentUser))
                     viewModel.selectedCategory = .other
                     viewModel.newAmount = 0
                     viewModel.addDescription = ""
@@ -61,5 +62,6 @@ struct AddSpendingView: View {
 }
 
 #Preview {
-    AddSpendingView(viewModel: BudgetViewModel(budget: budgetAnnivMarion))
+    AddSpendingView(viewModel: BudgetViewModel(evenement: events[0]))
+        .environment(DataBase())
 }

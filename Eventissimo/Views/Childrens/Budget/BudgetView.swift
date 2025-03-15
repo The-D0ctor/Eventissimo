@@ -18,22 +18,13 @@ struct BudgetView: View {
         ZStack{
             Color.darkblue50
                 .ignoresSafeArea()
-            ScrollView{
+            
                 VStack{
-                    PickerChoices(choices: listOptions)
-                    
-                    
-                    switch listOptions.selectedChoice {
-                    case 0:
-                        BudgetGlobalView(viewModel: viewModel)
-                    case 1:
-                        BudgetRecentView(budget: viewModel.budget)
-                    default:
-                        Text("")
-                    }
+                    BudgetGlobalView(viewModel: viewModel)
+                        
                 }
+            
                 .padding(24)
-            }
             
             
             if viewModel.isActive {
@@ -47,38 +38,43 @@ struct BudgetView: View {
                     
                     AddSpendingView(viewModel: viewModel)
                     
+                }
+                
+            }
+            
+        }
+        .navigationTitle(viewModel.evenement.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    SettingsGeneralView()
+                } label: {
                     VStack{
                         Button(action: {
                             
                             viewModel.isActive = !viewModel.isActive
                             
                         }, label: {
-                            LabelButtonPlusView()
-                                .rotationEffect(.degrees(45))
+                            Image("plus")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .padding(10)
+                                .background(Color.darkblue700)
+                                .clipShape(Circle())
+                                .foregroundStyle(.white)
+                                .rotationEffect(.degrees(
+                                    viewModel.isActive ? 45 : 0))
+                                
                             
-                        }).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        })
                     }
-                    .padding(24)
-                    
                 }
-                
-            }
-            else{
-                VStack{
-                    Button(action: {
-                        
-                        viewModel.isActive = !viewModel.isActive
-                    }, label: {
-                        LabelButtonPlusView()
-                        
-                    }).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                }
-                .padding(24)
             }
         }
     }
 }
 
 #Preview {
-    BudgetView(viewModel: BudgetViewModel(budget: budgetAnnivMarion))
+    BudgetView(viewModel: BudgetViewModel(evenement: events[0]))
 }

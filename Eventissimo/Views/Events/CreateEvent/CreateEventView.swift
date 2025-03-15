@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CreateEventView: View {
     
-    @State var event = Event(name: "", description: "", date: Date.now, localization: "", participants: [], guests: [], image: "", tasks: [], budget: Budget(totalBudget: 0, spendings: []), eventMessages: [])
+    @State var event = EventApp(name: "", description: "", date: Date.now, localization: "", participants: [], guests: [], image: "", tasks: [], budget: Budget(totalBudget: 0, spendings: []), eventMessages: [])
     
     var body: some View {
         NavigationStack {

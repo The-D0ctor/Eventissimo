@@ -19,19 +19,19 @@ struct SpeechBubbleRight: Shape {
 
     func path(in rect: CGRect) -> Path {
         Path { path in
-            path.move(to: CGPoint(x: rect.minX - radius, y: rect.maxY - radius))
+            path.move(to: CGPoint(x: rect.minX, y: rect.maxY - radius))
             path.addArc(
-                center: CGPoint(x: rect.minX, y: rect.minY + radius),
+                center: CGPoint(x: rect.minX + radius, y: rect.minY + 2 * radius),
                 radius: radius,
                 startAngle: Angle(degrees: 180),
                 endAngle: Angle(degrees: 270),
                 clockwise: false
             )
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY + radius))
             path.addCurve(
-                to: CGPoint(x: rect.maxX, y: rect.minY + tailSize),
-                control1: CGPoint(x: rect.maxX + tailSize + radius, y: rect.minY),
-                control2: CGPoint(x: rect.maxX + radius, y: rect.minY)
+                to: CGPoint(x: rect.maxX, y: rect.minY + tailSize + radius),
+                control1: CGPoint(x: rect.maxX + tailSize + radius, y: rect.minY + radius),
+                control2: CGPoint(x: rect.maxX + radius, y: rect.minY + radius)
             )
             path.addArc(
                 center: CGPoint(x: rect.maxX - radius, y: rect.maxY - radius),
@@ -41,7 +41,7 @@ struct SpeechBubbleRight: Shape {
                 clockwise: false
             )
             path.addArc(
-                center: CGPoint(x: rect.minX, y: rect.maxY - radius),
+                center: CGPoint(x: rect.minX + radius, y: rect.maxY - radius),
                 radius: radius,
                 startAngle: Angle(degrees: 90),
                 endAngle: Angle(degrees: 180),

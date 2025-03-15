@@ -10,6 +10,7 @@ import Observation
 
 @Observable
 class BudgetViewModel {
+    var evenement: EventApp
     var budget: Budget
     var listSpendingsByCategory: Dictionary<EBudgetCategory, [Spending]>
     var isActive: Bool = false
@@ -20,12 +21,13 @@ class BudgetViewModel {
     
     var addDescription: String = ""
     
-    init(budget: Budget) {
-        self.budget = budget
-        
+    init(evenement: EventApp) {
+        self.evenement = evenement
+        self.budget = evenement.budget
+
         var spendingsByCategory: Dictionary<EBudgetCategory, [Spending]> = [:]
         for category in EBudgetCategory.allCases {
-            spendingsByCategory[category] = budget.getSpendingsByCaterory(category: category)
+            spendingsByCategory[category] = evenement.budget.getSpendingsByCaterory(category: category)
         }
         self.listSpendingsByCategory = spendingsByCategory
     }

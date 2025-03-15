@@ -9,10 +9,12 @@ import SwiftUI
 import SimpleCalendar
 
 struct EventsListView: View {
+    @Environment(DataBase.self) var dataBase
+    
     @State var selectedDate: Date = Date.now
-    @State var calendarEvents: [any CalendarEventRepresentable] = events.map { event in
+    /*@State var calendarEvents: [any CalendarEventRepresentable] = events.map { event in
         event.calendarEvent
-    }
+    }*/
     
     init() {
         UINavigationBar.appearance().titleTextAttributes = [
@@ -22,6 +24,8 @@ struct EventsListView: View {
     }
     
     var body: some View {
+        @Bindable var dataBase = self.dataBase
+        
         NavigationStack {
             ZStack {
                 Color.darkblue50.ignoresSafeArea()
@@ -32,9 +36,9 @@ struct EventsListView: View {
                         
                         ScrollView(.horizontal) {
                             HStack {
-                                ForEach(events) { event in
+                                ForEach($dataBase.events) { $event in
                                     NavigationLink {
-                                        EventPageView(event: event)
+                                        EventPageView(event: $event)
                                     } label: {
                                         EventsListItemView(event: event)
                                         .scrollTransition() { content, phase in
@@ -72,7 +76,7 @@ struct EventsListView: View {
             }
             .navigationTitle("Évènements")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
+            /*.toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         SimpleCalendarView(events: $calendarEvents, selectedDate: $selectedDate, selectionAction: .destination({ calendar in
@@ -91,7 +95,7 @@ struct EventsListView: View {
                     }
                     .padding(.trailing)
                 }
-            }
+            }*/
         }
     }
     
@@ -112,4 +116,5 @@ struct EventsListView: View {
 
 #Preview {
     EventsListView()
+        .environment(DataBase())
 }

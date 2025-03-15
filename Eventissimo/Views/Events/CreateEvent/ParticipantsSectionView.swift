@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ParticipantsSectionView: View {
     
-    @Binding var event: Event
+    @Binding var event: EventApp
     @State var pickerChoice = ERole.organizer
     @State var newParticipant = Participant(person: Person(name: "", email: "", pronouns: .other), role: .volunteer)
     

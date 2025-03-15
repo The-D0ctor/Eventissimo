@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EventsListItemView: View {
-    var event: Event
+    var event: EventApp
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "fr_FR")
@@ -28,6 +28,7 @@ struct EventsListItemView: View {
             VStack(alignment: .leading, spacing: 5) {
                 Text(event.name)
                     .serif(size: 22)
+                    .foregroundStyle(.white)
                 HStack {
                     Image("calendar")
                         .resizable()
@@ -37,16 +38,18 @@ struct EventsListItemView: View {
                         .jakarta(size: 14)
                         .fontWeight(.medium)
                 }
+                .foregroundStyle(.green200)
                 HStack {
                     Image("map_pin")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 16, height: 16)
-                    Text(event.localization)
+                    Text(event.localization
+                        .components(separatedBy: " ").first ?? "")
                         .jakarta(size: 12)
                 }
+                .foregroundStyle(.green500)
             }
-            .foregroundStyle(.white)
             .padding()
             .frame(width: 300, height: 437.5, alignment: .bottomLeading)
         }

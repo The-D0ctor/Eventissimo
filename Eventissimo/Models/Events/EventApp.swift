@@ -8,7 +8,7 @@
 import Foundation
 import SimpleCalendar
 
-struct Event: Identifiable {
+struct EventApp: Identifiable {
     var id: UUID = UUID()
     var name: String
     var description: String

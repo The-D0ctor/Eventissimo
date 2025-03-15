@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct EventListTaskExtracted: View {
-    @StateObject var viewModel = TaskViewModel()
-    @State var tasksList: [TaskApp]
+    //@State var viewModel = TaskViewModel()
+    @Binding var tasksList: [TaskApp]
     
     var body: some View {
         
-        ForEach($tasksList) { $taskApp in
+        ForEach($tasksList, id: \.id) { $taskApp in
             VStack(alignment: .leading){
                 HStack{
                     Button {
-//                        taskApp.isCompleted.toggle()
+                        taskApp.isCompleted.toggle()
                     } label: {
                         
                         ZStack {
@@ -37,32 +37,43 @@ struct EventListTaskExtracted: View {
                         
                     }
                     VStack(alignment: .leading) {
-                        Text(taskApp.title)
-                            .strikethrough(taskApp.isCompleted)
-                            .foregroundStyle(taskApp.isCompleted ? .green700:.darkblue900)
-                            .jakarta(size: 12)
-                            .lineLimit(1)
-                        
-                        if (taskApp.description != nil) {
-                            Text(taskApp.description ?? "")
-                                .jakarta(size: 10)
-                                .foregroundStyle(.gray.mix(with: .darkblue900, by: 0.4))
-                                .lineLimit(1)
-                            Divider()
-                                .frame(width: 300,alignment: .center)
-                                .background(.green500)
+                        HStack{
+                            VStack{
+                                Text(taskApp.title)
+                                    .strikethrough(taskApp.isCompleted)
+                                    .foregroundStyle(taskApp.isCompleted ? .green700:.darkblue900)
+                                    .jakarta(size: 12)
+                                    .lineLimit(1)
+                                
+                                
+                                if (taskApp.description != nil) {
+                                    Text(taskApp.description ?? "")
+                                        .jakarta(size: 10)
+                                        .foregroundStyle(.gray.mix(with: .darkblue900, by: 0.4))
+                                        .lineLimit(1)
+                                    
+                                }
+                            }
+                            Spacer()
+                            ForEach(taskApp.personsAssigned) { person in
+                                if let profilePicture = person.profilePicture {
+                                    Image(profilePicture)
+                                        .resizable()
+                                        .frame(height: 24)
+                                        .scaledToFit()
+                                        .frame(width: 16, height: 16)
+                                        .clipShape(Circle())
+                                }
+                            }
                         }
+                        Divider()
+                            .frame(width: 330,alignment: .trailing)
+                            .background(.green500)
                     }
                     .padding(10)
                     Spacer()
                     
-                    ForEach(/*events.tasks*/viewModel.tasks) { person in
-                        Image(person.personsAssigned.first?.profilePicture ?? "")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20)
-                    }
-                    
+                   
                 }
             }
         }
@@ -70,5 +81,5 @@ struct EventListTaskExtracted: View {
 }
 
 #Preview {
-    EventListTaskExtracted(tasksList: events[0].tasks)
+    EventListTaskExtracted(tasksList: Binding.constant(events[0].tasks))
 }

@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct EventPageView: View {
+    @Environment(DataBase.self) var dataBase
     
-    var event: Event
+    @Binding var event: EventApp
     
     @State private var isAccepted = false
     
@@ -19,7 +20,7 @@ struct EventPageView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    EventPageCardView(eventPage: event)
+                    EventPageCardView(event: event)
                     Text(event.description)
                         .jakarta(size: 14)
                         .foregroundStyle(.green900)
@@ -80,8 +81,7 @@ struct EventPageView: View {
                             }
                             .frame(maxWidth: .infinity)
                             NavigationLink(destination: {
-                                BudgetView(viewModel: BudgetViewModel(budget: budgetAnnivMarion))
-                                
+                                BudgetView(viewModel: BudgetViewModel(evenement: event))
                             }, label: {
                                 VStack(alignment: .leading){
                                     Text("Derniers achats")
@@ -97,9 +97,8 @@ struct EventPageView: View {
                         .padding(.horizontal, 16)
                         .padding(.vertical, 16)
                     }
-                    Button { withAnimation(.easeInOut(duration: 0.2)) {
-                        // 🙋‍♀️ Lucie : à revoir : Action pour ouvrir la discussion de l'événement
-                    }
+                    NavigationLink {
+                        MessagesListView(dataBase: dataBase, image: event.image, title: event.name, messages: $event.eventMessages, isEvent: true)
                     } label: {
                         HStack {
                             Image(systemName: "bubble.left.and.bubble.right")
@@ -127,7 +126,8 @@ struct EventPageView: View {
     }
 }
 #Preview {
-    EventPageView(event: events[1])
+    EventPageView(event: Binding.constant(events[1]))
+        .environment(DataBase())
 }
 
 

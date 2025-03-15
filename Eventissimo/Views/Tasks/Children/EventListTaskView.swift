@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EventListTaskView: View {
-    @State var tasksList: [TaskApp]
+    @Binding var tasksList: [TaskApp]
     var body: some View {
         
         ZStack {
@@ -20,7 +20,7 @@ struct EventListTaskView: View {
                     .foregroundStyle(.darkblue900)
                 
                     ForEach(tasksList){taskApp in
-                                        EventListTaskExtracted(tasksList:events[0].tasks)
+                        EventListTaskExtracted(tasksList:$tasksList)
                                                        }
                 
                 
@@ -30,5 +30,5 @@ struct EventListTaskView: View {
 }
 
 #Preview {
-    EventListTaskView(tasksList:events[0].tasks)
+    EventListTaskView(tasksList:Binding.constant(events[0].tasks))
 }

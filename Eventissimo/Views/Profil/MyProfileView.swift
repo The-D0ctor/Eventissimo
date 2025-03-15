@@ -9,23 +9,23 @@
 
 import SwiftUI
 
-struct ProfileView: View {
-    
+struct MyProfileView: View {
+    @Environment(DataBase.self) var dataBase
     // 👇 Fonction pour filtrer les évènements de Marion seulement 👇 Il faudrait surement la mettre dans une View Model
-    func getEventsForUser() -> [Event] {
+    func getEventsForUser() -> [EventApp] {
         return events.filter { event in
-            event.participants.contains { $0.person.name == users[0].name } // users[0] correspond à Marion, je ne sais pas si c'est correct et en même temps je ne savais pas comment faire autrement
+            event.participants.contains { $0.person.id == dataBase.currentUser.id } // users[0] correspond à Marion, je ne sais pas si c'est correct et en même temps je ne savais pas comment faire autrement
         }
     }
-    
-    var person: Person
-    
+        
     var body: some View {
+        @Bindable var viewModel: MyProfileViewModel = MyProfileViewModel(dataBase: dataBase)
+        
         NavigationStack {
             VStack {
                 ScrollView {
                     VStack(spacing: 10) {
-                        if let profilePicture = person.profilePicture {
+                        if let profilePicture = dataBase.currentUser.profilePicture {
                             Image(profilePicture)
                         }
                         ZStack {
@@ -33,36 +33,36 @@ struct ProfileView: View {
                                 .fill(Color.white)
                                 .frame(width: 140, height: 90)
                             VStack(spacing: 4)  {
-                                Text(person.name.components(separatedBy: " ").first ?? "")
+                                Text(dataBase.currentUser.name.components(separatedBy: " ").first ?? "")
                                     .jakarta(size: 18)
                                     .fontWeight(.semibold)
                                 
-                                if let age = person.age {
+                                if let age = dataBase.currentUser.age {
                                     Text("\(age) ans")
                                         .jakarta(size: 16)
                                         .fontWeight(.regular)
                                 }
-                                Text("\(person.pronouns.rawValue)")
+                                Text("\(dataBase.currentUser.pronouns.rawValue)")
                                     .jakarta(size: 14)
                                     .fontWeight(.light)
                             }
                         }
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.green200)
-                                .frame(width: 320, height: 40)
-                                .opacity(0.7)
-                            if let description = person.description {
-                                Text("\"\(description)\"")
-                                    .jakarta(size: 14)
-                                    .fontWeight(.light)
-                                    .foregroundColor(.darkblue700)
-                            }
+                        if let description = dataBase.currentUser.description {
+                            Text("\"\(description)\"")
+                                .jakarta(size: 14)
+                                .fontWeight(.light)
+                                .foregroundColor(.darkblue700)
+                                .padding(.top, 18)
+                                .padding([.bottom, .horizontal], 12)
+                                .background {
+                                    SpeechBubbleLeft()
+                                        .foregroundStyle(.green200)
+                                }
+                                .padding(.vertical, 10)
                         }
-                        .padding(.vertical, 10)
                         HStack(spacing: 25) {
                             VStack(alignment: .center, spacing: 4)  {
-                                Text("\(person.eventOrganized ?? 0)")
+                                Text("\(dataBase.currentUser.eventOrganized ?? 0)")
                                     .serif(size: 24)
                                 Text("Évènements\norganisés")
                                     .jakarta(size: 14)
@@ -73,16 +73,15 @@ struct ProfileView: View {
                             .padding(.vertical, 12)
                             .background(Color.white)
                             .cornerRadius(10)
-                            Rectangle()
-                                .frame(width: 1, height: 90)
-                                .foregroundStyle(.darkblue200)
-                                .opacity(0.4)
+                            Divider()
+                                .frame(width: 1, height: 80)
+                                .overlay(.darkblue400)
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.white)
                                     .frame(width: 140, height: 90)
                                 VStack(alignment: .center, spacing: 4)  {
-                                    Text("\(person.eventParticipated ?? 0)")
+                                    Text("\(dataBase.currentUser.eventParticipated ?? 0)")
                                         .serif(size: 24)
                                     Text("Évènements\nparticipés")
                                         .jakarta(size: 14)
@@ -102,9 +101,9 @@ struct ProfileView: View {
                         .padding(.horizontal, 24)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 14) {
-                                ForEach(getEventsForUser(), id: \.name) { event in
+                                ForEach(viewModel.getEventsForUser()) { $event in
                                     NavigationLink {
-                                        EventPageView(event: event)
+                                        EventPageView(event: $event)
                                     } label: {
                                         EventCardView(event: event)
                                     }
@@ -142,7 +141,8 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView(person: users[0])
+    MyProfileView()
+        .environment(DataBase())
 }
 
 

@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct MyListTaskView: View {
-    @StateObject var viewModel = TaskViewModel()
+    @Environment(DataBase.self) var dataBase
+    
     var body: some View {
+        @Bindable var viewModel: TaskViewModel = TaskViewModel(dataBase: dataBase)
+        
         NavigationStack{
             ZStack {
                 Color.darkblue50
@@ -22,8 +25,8 @@ struct MyListTaskView: View {
                     // .padding(.top)
                     
                     ScrollView {
-                        ForEach(viewModel.myEvents) { event in
-                            PersonalEventTasksCardView(event: event, tasksList: viewModel.getUserEventTasks(event: event))
+                        ForEach($viewModel.dataBase.myEvents) { $event in
+                            PersonalEventTasksCardView(event: $event, tasksList: viewModel.getUserEventTasks(event: event))
                                 .padding(.bottom)
                         }
                     }
@@ -36,5 +39,6 @@ struct MyListTaskView: View {
 
 #Preview {
     MyListTaskView()
+        .environment(DataBase())
 }
 

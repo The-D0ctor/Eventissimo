@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TaskSectionView: View {
     
-    @Binding var event: Event
+    @Binding var event: EventApp
     @State var newTask = TaskApp(title: "", personsAssigned: [])
     
     var body: some View {

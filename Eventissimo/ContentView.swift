@@ -27,7 +27,7 @@ struct ContentView: View {
                         Image("discussions")
                         Text("Discussions")
                     }
-                ProfileView(person: users[0])
+                MyProfileView()
                     .tabItem {
                         Image("profile")
                         Text("Profil")
@@ -40,4 +40,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environment(DataBase())
 }

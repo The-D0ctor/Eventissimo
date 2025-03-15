@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct PersonalEventTasksCardView: View {
-    var event: Event
-    var tasksList: [TaskApp]
+    @Binding var event: EventApp
+    @Binding var tasksList: [TaskApp]
     var body: some View {
         VStack{
             NavigationLink {
-                EventListTaskView(tasksList:events[0].tasks)
+                EventListTaskView(tasksList:$tasksList)
             } label: {
                 HStack{
                     Image(event.image)
@@ -32,7 +32,7 @@ struct PersonalEventTasksCardView: View {
                         .foregroundStyle(.green500)
                 }
             }
-            PersonalTasksListView(tasksList: tasksList)
+            PersonalTasksListView(tasksList: $tasksList)
         }
         .padding()
         .background(.white)
@@ -41,5 +41,5 @@ struct PersonalEventTasksCardView: View {
 }
 
 #Preview {
-    PersonalEventTasksCardView(event: events[0], tasksList: events[0].tasks)
+    PersonalEventTasksCardView(event: Binding.constant(events[0]), tasksList: Binding.constant(events[0].tasks))
 }

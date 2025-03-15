@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PersonalTasksListView: View {
-@State var tasksList: [TaskApp]
-    @StateObject var viewModel = TaskViewModel()
+    @Binding var tasksList: [TaskApp]
+    //@State var viewModel = TaskViewModel()
     var body: some View {
         
         ForEach($tasksList) { $taskApp in
@@ -69,5 +69,5 @@ struct PersonalTasksListView: View {
 }
 
 #Preview {
-    PersonalTasksListView(tasksList: events[0].tasks)
+    PersonalTasksListView(tasksList: Binding.constant(events[0].tasks))
 }

@@ -9,8 +9,19 @@
 import SwiftUI
 
 struct InformationsSectionView: View {
+    @Binding var event: EventApp
     
-    @Binding var event: Event
+    @State var isPopoverShown: Bool = false
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter
+    }
+    var hourformatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -28,10 +39,10 @@ struct InformationsSectionView: View {
                     Text("Écrire un nom")
                         .jakarta(size: 16)
                 }
-                    .padding()
-                    .frame(height: 48)
-                    .background(Color.white)
-                    .cornerRadius(12)
+                .padding()
+                .frame(height: 48)
+                .background(Color.white)
+                .cornerRadius(12)
             }
             .foregroundColor(.darkblue700)
             
@@ -66,6 +77,73 @@ struct InformationsSectionView: View {
                     .cornerRadius(12)
             }
             .foregroundStyle(.darkblue700)
+            
+            VStack (alignment: .leading, spacing: 4){
+                HStack (spacing: 16){
+                    VStack (alignment: .leading){
+                        Text("Date")
+                            .jakarta(size: 16)
+                            .foregroundStyle(.darkblue700)
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 12).frame(height: 48).foregroundStyle(.white)
+                            HStack{
+                                Text(dateFormatter.string(from: event.date))
+                                Spacer()
+                                Button {
+                                    isPopoverShown.toggle()
+                                } label: {
+                                    Image("calendar").resizable()
+                                        .foregroundStyle(.green900)
+                                        .frame(width: 20, height: 20)
+                                }
+                                
+                            }.padding()
+                        }
+                        
+                    }
+                    VStack (alignment: .leading){
+                        Text("Heure")
+                            .jakarta(size: 16)
+                            .foregroundStyle(.darkblue700)
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 12).frame(height: 48).foregroundStyle(.white)
+                            HStack{
+                                Text(hourformatter.string(from: event.date))
+                                Spacer()
+                                Button {
+                                    isPopoverShown.toggle()
+                                } label: {
+                                    Image(systemName: "clock")
+                                        .resizable()
+                                        .foregroundStyle(.green900)
+                                        .frame(width: 20, height: 20)
+                                }
+                                
+                            }.padding()
+                        }
+                        
+                    }
+                    
+                }
+            }
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Budget total")
+                    .jakarta(size: 16)
+                
+//                MARK: ici probleme, changer localization par budget : "\($event.budget.totalBudget)" ne marche pas
+                HStack {
+                    TextField("Écrire un budget", value: $event.budget.totalBudget, format: .number)
+                    
+                    
+                        .padding()
+                        .frame( height: 48)
+                        .background(Color.white)
+                        .cornerRadius(12)
+                    Text("€")
+                }
+            }
+            .foregroundStyle(.darkblue700)
+            
             
             
             // TODO: mettre ici un date picker ;)
@@ -109,6 +187,16 @@ struct InformationsSectionView: View {
             
         }
         .padding()
+        .sheet(isPresented: $isPopoverShown) {
+            DatePicker("",
+                       selection: $event.date,
+                       displayedComponents: [.date, .hourAndMinute]
+            )
+            .datePickerStyle(.graphical)
+            .background(Color.white)
+            .tint(.green650)
+            .presentationDetents([.fraction(0.6)])
+        }
     }
 }
 

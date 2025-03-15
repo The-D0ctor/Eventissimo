@@ -19,7 +19,7 @@ extension Date {
 
 struct EventCardView: View {
     
-    var event: Event
+    var event: EventApp
 
     
     var body: some View {
@@ -46,6 +46,8 @@ struct EventCardView: View {
                 HStack {
                     Image("map_pin")
                         .resizable()
+                        .scaledToFit()
+                        .scaledToFill()
                         .frame(width: 16, height: 16)
                     Text(event.localization.components(separatedBy: " ").first ?? "")
                         .jakarta(size: 12)

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DiscussionsView: View {
+    @Environment(DataBase.self) var dataBase
+    
     @State var listOptions: PickerChoiceViewModel = PickerChoiceViewModel(listChoices: ["Amis", "Évènements"])
     
     init() {
@@ -18,17 +20,17 @@ struct DiscussionsView: View {
     }
     
     var body: some View {
+        @State var viewModel: DiscussionsViewModel = DiscussionsViewModel(dataBase: dataBase)
+        
         NavigationStack {
             ZStack {
                 Color.darkblue50.ignoresSafeArea()
                 VStack {
                     PickerChoices(choices: listOptions)
                     TabView(selection: $listOptions.selectedChoice) {
-                        DiscussionsListView(privateConversationsList: newPrivateConversation.filter({ privateConversation in
-                            privateConversation.person1.id == marion.id || privateConversation.person2.id == marion.id
-                        }))
+                        PrivateConversationsListView(dataBase: viewModel.dataBase, privateConversationsList: $viewModel.currentUserPrivateConversations)
                             .tag(0)
-                        DiscussionsListView(eventsList: events)
+                        EventsDiscussionsListView(dataBase: viewModel.dataBase, eventsList: $viewModel.dataBase.myEvents)
                             .tag(1)
                     }
                     .foregroundStyle(.darkblue900)
@@ -44,4 +46,5 @@ struct DiscussionsView: View {
 
 #Preview {
     DiscussionsView()
+        .environment(DataBase())
 }
