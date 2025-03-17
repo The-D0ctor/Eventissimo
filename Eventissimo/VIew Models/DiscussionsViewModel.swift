@@ -18,11 +18,9 @@ class DiscussionsViewModel {
     
     var currentUserPrivateConversations: [PrivateConversation] {
         get {
-            let test = dataBase.privateConversations.filter({ privateConversation in
+            return dataBase.privateConversations.filter({ privateConversation in
                 privateConversation.person1.id == dataBase.currentUser.id || privateConversation.person2.id == dataBase.currentUser.id
             })
-            print(test)
-            return test
         }
         
         set(newPrivateConversations) {
@@ -31,6 +29,23 @@ class DiscussionsViewModel {
                     (privateConversation.person1.id == newPrivateConversation.person1.id && privateConversation.person2.id == newPrivateConversation.person2.id) || (privateConversation.person1.id == newPrivateConversation.person2.id && privateConversation.person2.id == newPrivateConversation.person1.id)
                 }) {
                     dataBase.privateConversations[index] = newPrivateConversation
+                }
+            }
+        }
+    }
+    
+    var myEvents: [EventApp] {
+        get {
+            dataBase.events.filter { event in
+                event.participants.contains { $0.person.id == dataBase.currentUser.id }
+            }
+        }
+        set(newEvents) {
+            for newEvent in newEvents {
+                if let eventIndex = dataBase.events.firstIndex(where: { event in
+                    event.id == newEvent.id
+                }) {
+                    dataBase.events[eventIndex] = newEvent
                 }
             }
         }

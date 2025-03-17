@@ -14,7 +14,7 @@ struct EventPageCardView: View {
     
     var body: some View {
         ZStack(alignment: .bottom)  {
-            Image(event.image)
+            event.image?
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 345, height: 460)

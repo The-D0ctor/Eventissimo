@@ -12,6 +12,7 @@ struct BudgetGlobalView: View {
     @State var viewModel: BudgetViewModel
     
     var body: some View {
+        Text("")
         ScrollView{
             VStack{
                 GeometryReader { geometry in

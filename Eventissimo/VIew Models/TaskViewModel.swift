@@ -18,12 +18,6 @@ class TaskViewModel {
         self.dataBase = dataBase
     }
     
-    func getMyEvents(currentUser: Person) -> [EventApp] {
-        return events.filter { event in
-            event.participants.contains { $0.person.id == dataBase.currentUser.id }
-        }
-    }
-    
     // same avec filtrage des tâches (celle ci utilise une fonction)
     func getUserEventTasks(event: EventApp) -> Binding<[TaskApp]> {
         return Binding {

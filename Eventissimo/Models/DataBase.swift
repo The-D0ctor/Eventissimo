@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import SwiftUI
 
 // MARK: - PERSON
 
@@ -20,7 +21,7 @@ import Observation
               localization: "Lyon - 18 rue du lac",
               participants: [Participant(person: users[0], role: .organizer), Participant(person: users[1], role: .guest), Participant(person: users[2], role: .guest), Participant(person: users[3], role: .guest)],
               guests: allInvited,
-              image: "birthdayMarionEvent",
+              image: Image("birthdayMarionEvent"),
               tasks: [tasks[0], tasks[1]],
               budget: Budget(totalBudget: 200, spendings: sprendingsAnnivMarion),
               eventMessages: newMessageApp),
@@ -31,7 +32,7 @@ import Observation
               localization: "Lyon - 250 rue Inkermann",
               participants: [Participant(person: users[0], role: .organizer), Participant(person: users[1], role: .guest), Participant(person: users[4], role: .guest), Participant(person: users[5], role: .guest), Participant(person: users[6], role: .guest), Participant(person: users[7], role: .guest)],
               guests: allInvited,
-              image: "birthdayLolaEvent",
+              image: Image("birthdayLolaEvent"),
               tasks: [tasks[2], tasks[3], tasks[4]],
               budget: Budget(totalBudget: 400, spendings: sprendingsAnnivMarion),
               eventMessages: []),
@@ -42,7 +43,7 @@ import Observation
               localization: "Tarare - 22 rue des peupliers",
               participants: [Participant(person: users[0], role: .guest), Participant(person: users[2], role: .guest), Participant(person: users[9], role: .guest), Participant(person: users[5], role: .guest), Participant(person: users[4], role: .guest)],
               guests: allInvited,
-              image: "newYearEvent",
+              image: Image("newYearEvent"),
               tasks: [tasks[5], tasks[6]],
               budget: Budget(totalBudget: 60, spendings: []),
               eventMessages: []),
@@ -53,7 +54,7 @@ import Observation
               localization: "Vauban - rue Principale",
               participants: [Participant(person: users[2], role: .guest), Participant(person: users[8], role: .guest), Participant(person: users[3], role: .guest), Participant(person: users[9], role: .guest)],
               guests: allInvited,
-              image: "brocanteEvent",
+              image: Image("brocanteEvent"),
               tasks: [tasks[7], tasks[8], tasks[9]],
               budget: Budget(totalBudget: 1000, spendings: []),
               eventMessages: []),
@@ -64,7 +65,7 @@ import Observation
               localization: "Sancé - salle des fêtes",
               participants: [Participant(person: users[0], role: .guest), Participant(person: users[6], role: .guest), Participant(person: users[3], role: .guest), Participant(person: users[8], role: .guest), Participant(person: users[7], role: .guest)],
               guests: allInvited,
-              image: "village1Event",
+              image: Image("village1Event"),
               tasks: [tasks[10], tasks[11], tasks[12]],
               budget: Budget(totalBudget: 50, spendings: []),
               eventMessages: [])
@@ -99,6 +100,24 @@ import Observation
                     event.id == newEvent.id
                 }) {
                     events[eventIndex] = newEvent
+                }
+            }
+        }
+    }
+    
+    var currentUserPrivateConversations: [PrivateConversation] {
+        get {
+            return privateConversations.filter({ privateConversation in
+                privateConversation.person1.id == currentUser.id || privateConversation.person2.id == currentUser.id
+            })
+        }
+        
+        set(newPrivateConversations) {
+            for newPrivateConversation in newPrivateConversations {
+                if let index = privateConversations.firstIndex(where: { privateConversation in
+                    (privateConversation.person1.id == newPrivateConversation.person1.id && privateConversation.person2.id == newPrivateConversation.person2.id) || (privateConversation.person1.id == newPrivateConversation.person2.id && privateConversation.person2.id == newPrivateConversation.person1.id)
+                }) {
+                    privateConversations[index] = newPrivateConversation
                 }
             }
         }
@@ -256,7 +275,7 @@ let events: [EventApp] = [
           localization: "Lyon - 18 rue du lac",
           participants: [Participant(person: users[0], role: .organizer), Participant(person: users[1], role: .guest), Participant(person: users[2], role: .guest), Participant(person: users[3], role: .guest)],
           guests: allInvited,
-          image: "birthdayMarionEvent",
+          image: Image("birthdayMarionEvent"),
           tasks: [tasks[0], tasks[1]],
           budget: Budget(totalBudget: 200, spendings: sprendingsAnnivMarion),
           eventMessages: newMessageApp),
@@ -267,7 +286,7 @@ let events: [EventApp] = [
           localization: "Lyon - 250 rue Inkermann",
           participants: [Participant(person: users[0], role: .organizer), Participant(person: users[1], role: .guest), Participant(person: users[4], role: .guest), Participant(person: users[5], role: .guest), Participant(person: users[6], role: .guest), Participant(person: users[7], role: .guest)],
           guests: allInvited,
-          image: "birthdayLolaEvent",
+          image: Image("birthdayLolaEvent"),
           tasks: [tasks[2], tasks[3], tasks[4]],
           budget: Budget(totalBudget: 400, spendings: sprendingsAnnivMarion),
           eventMessages: []),
@@ -278,7 +297,7 @@ let events: [EventApp] = [
           localization: "Tarare - 22 rue des peupliers",
           participants: [Participant(person: users[0], role: .guest), Participant(person: users[2], role: .guest), Participant(person: users[9], role: .guest), Participant(person: users[5], role: .guest), Participant(person: users[4], role: .guest)],
           guests: allInvited,
-          image: "newYearEvent",
+          image: Image("newYearEvent"),
           tasks: [tasks[5], tasks[6]],
           budget: Budget(totalBudget: 60, spendings: []),
           eventMessages: []),
@@ -289,7 +308,7 @@ let events: [EventApp] = [
           localization: "Vauban - rue Principale",
           participants: [Participant(person: users[2], role: .guest), Participant(person: users[8], role: .guest), Participant(person: users[3], role: .guest), Participant(person: users[9], role: .guest)],
           guests: allInvited,
-          image: "brocanteEvent",
+          image: Image("brocanteEvent"),
           tasks: [tasks[7], tasks[8], tasks[9]],
           budget: Budget(totalBudget: 1000, spendings: []),
           eventMessages: []),
@@ -300,7 +319,7 @@ let events: [EventApp] = [
           localization: "Sancé - salle des fêtes",
           participants: [Participant(person: users[0], role: .guest), Participant(person: users[6], role: .guest), Participant(person: users[3], role: .guest), Participant(person: users[8], role: .guest), Participant(person: users[7], role: .guest)],
           guests: allInvited,
-          image: "village1Event",
+          image: Image("village1Event"),
           tasks: [tasks[10], tasks[11], tasks[12]],
           budget: Budget(totalBudget: 50, spendings: []),
           eventMessages: [])

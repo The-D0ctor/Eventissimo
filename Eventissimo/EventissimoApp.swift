@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct EventissimoApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    
     private var dataBase = DataBase()
     
     var body: some Scene {

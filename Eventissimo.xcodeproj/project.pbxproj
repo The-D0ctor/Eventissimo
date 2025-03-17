@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2C6638E02D803F370060891F /* SimpleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 2C6638DF2D803F370060891F /* SimpleCalendar */; };
+		2C8F29DD2D880CD80027C1E7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29DC2D880CD80027C1E7 /* FirebaseAuth */; };
+		2C8F29E22D880E470027C1E7 /* FirebaseAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29E12D880E470027C1E7 /* FirebaseAuthUI */; };
+		2C8F29E42D880E470027C1E7 /* FirebaseEmailAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29E32D880E470027C1E7 /* FirebaseEmailAuthUI */; };
+		2C8F29E62D880E470027C1E7 /* FirebaseGoogleAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29E52D880E470027C1E7 /* FirebaseGoogleAuthUI */; };
+		2C8F29E82D880E470027C1E7 /* FirebaseOAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29E72D880E470027C1E7 /* FirebaseOAuthUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +45,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C8F29E62D880E470027C1E7 /* FirebaseGoogleAuthUI in Frameworks */,
+				2C8F29E82D880E470027C1E7 /* FirebaseOAuthUI in Frameworks */,
+				2C8F29E42D880E470027C1E7 /* FirebaseEmailAuthUI in Frameworks */,
 				2C6638E02D803F370060891F /* SimpleCalendar in Frameworks */,
+				2C8F29E22D880E470027C1E7 /* FirebaseAuthUI in Frameworks */,
+				2C8F29DD2D880CD80027C1E7 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +94,11 @@
 			name = Eventissimo;
 			packageProductDependencies = (
 				2C6638DF2D803F370060891F /* SimpleCalendar */,
+				2C8F29DC2D880CD80027C1E7 /* FirebaseAuth */,
+				2C8F29E12D880E470027C1E7 /* FirebaseAuthUI */,
+				2C8F29E32D880E470027C1E7 /* FirebaseEmailAuthUI */,
+				2C8F29E52D880E470027C1E7 /* FirebaseGoogleAuthUI */,
+				2C8F29E72D880E470027C1E7 /* FirebaseOAuthUI */,
 			);
 			productName = Eventissimo;
 			productReference = 2C2620B82D78831A0010D0E7 /* Eventissimo.app */;
@@ -115,6 +130,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				2C6638DE2D803F370060891F /* XCRemoteSwiftPackageReference "SimpleCalendar" */,
+				2C8F29DB2D880CD80027C1E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2C2620B92D78831A0010D0E7 /* Products */;
@@ -271,6 +288,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Eventissimo/Eventissimo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Eventissimo/Preview Content\"";
@@ -288,7 +306,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rochelet.Eventissimo;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.srochelet.Eventissimo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -305,6 +324,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Eventissimo/Eventissimo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Eventissimo/Preview Content\"";
@@ -322,7 +342,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rochelet.Eventissimo;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.srochelet.Eventissimo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -366,6 +387,22 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		2C8F29DB2D880CD80027C1E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.9.0;
+			};
+		};
+		2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebaseui-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -373,6 +410,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2C6638DE2D803F370060891F /* XCRemoteSwiftPackageReference "SimpleCalendar" */;
 			productName = SimpleCalendar;
+		};
+		2C8F29DC2D880CD80027C1E7 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C8F29DB2D880CD80027C1E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		2C8F29E12D880E470027C1E7 /* FirebaseAuthUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */;
+			productName = FirebaseAuthUI;
+		};
+		2C8F29E32D880E470027C1E7 /* FirebaseEmailAuthUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */;
+			productName = FirebaseEmailAuthUI;
+		};
+		2C8F29E52D880E470027C1E7 /* FirebaseGoogleAuthUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */;
+			productName = FirebaseGoogleAuthUI;
+		};
+		2C8F29E72D880E470027C1E7 /* FirebaseOAuthUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */;
+			productName = FirebaseOAuthUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

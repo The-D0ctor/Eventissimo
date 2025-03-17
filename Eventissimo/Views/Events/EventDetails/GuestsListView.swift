@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct GuestsListView: View {
+    var dataBase: DataBase
     var event: EventApp
     
     
@@ -47,23 +48,25 @@ struct GuestsListView: View {
                         VStack {
                             if listOptions.selectedChoice == 0 {
                                 ForEach(event.participants, id: \.person.id) { participant in
-                                    GuestRowView(participant: participant)
-                                        .contentShape(Rectangle())
-                                        .swipeActions(edge: .trailing) {
-                                            // 🙋‍♀️ Le swipe de droite à gauche ne fonctionne pas. A revoir ici et ajouter les fonctionnalités des boutons
-                                            Button(role: .destructive) {
-                                                // 🙋‍♀️ Ajouter ici la logique pour supprimer un invité
-                                            } label: {
-                                                Label("Supprimer", systemImage: "trash")
-                                            }
-                                            .tint(.red)
-                                            Button {
-                                                // 🙋‍♀️ Ajouter ici la logique pour définir un admin
-                                            } label: {
-                                                Label("Admin", systemImage: "person.fill.badge.plus")
-                                            }
-                                            .tint(.blue)
+                                    NavigationLink(destination: ProfileView(dataBase: dataBase, person: participant.person).navigationBarBackButtonHidden()) {
+                                        GuestRowView(participant: participant)
+                                    }
+                                    .contentShape(Rectangle())
+                                    .swipeActions(edge: .trailing) {
+                                        // 🙋‍♀️ Le swipe de droite à gauche ne fonctionne pas. A revoir ici et ajouter les fonctionnalités des boutons
+                                        Button(role: .destructive) {
+                                            // 🙋‍♀️ Ajouter ici la logique pour supprimer un invité
+                                        } label: {
+                                            Label("Supprimer", systemImage: "trash")
                                         }
+                                        .tint(.red)
+                                        Button {
+                                            // 🙋‍♀️ Ajouter ici la logique pour définir un admin
+                                        } label: {
+                                            Label("Admin", systemImage: "person.fill.badge.plus")
+                                        }
+                                        .tint(.blue)
+                                    }
                                     Divider()
                                 }
                             } else {
@@ -230,14 +233,14 @@ struct GuestSelectionSheet: View {
                                     .stroke(Color.black, lineWidth: 1)
                                     .fill( guests.contains(user) ? Color.green650 : Color.white)
                                     .frame(width: 24, height: 24)
-                            
+                                
                                 if guests.contains(user){
                                     Image(systemName: "checkmark")
                                         .foregroundStyle(.white)
                                 }
-                                    
                                 
-
+                                
+                                
                             }
                         }
                     }
@@ -250,5 +253,5 @@ struct GuestSelectionSheet: View {
 }
 
 #Preview {
-    GuestsListView(event: events[1])
+    GuestsListView(dataBase: DataBase(), event: events[1])
 }

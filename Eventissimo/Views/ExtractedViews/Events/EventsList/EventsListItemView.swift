@@ -18,7 +18,7 @@ struct EventsListItemView: View {
     
     var body: some View {
         ZStack {
-            Image(event.image)
+            event.image?
                 .resizable()
                 .scaledToFill()
                 .frame(width: 300, height: 437.5)

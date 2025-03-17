@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BudgetView: View {
+    var dataBase: DataBase
     
     @State var listOptions: PickerChoiceViewModel = PickerChoiceViewModel( listChoices: ["Vue globale", "Dépenses récentes"])
     
@@ -36,7 +37,7 @@ struct BudgetView: View {
                             viewModel.isActive = !viewModel.isActive
                         }
                     
-                    AddSpendingView(viewModel: viewModel)
+                    AddSpendingView(dataBase: dataBase, viewModel: viewModel)
                     
                 }
                 
@@ -76,5 +77,5 @@ struct BudgetView: View {
 }
 
 #Preview {
-    BudgetView(viewModel: BudgetViewModel(evenement: events[0]))
+    BudgetView(dataBase: DataBase(), viewModel: BudgetViewModel(evenement: events[0]))
 }

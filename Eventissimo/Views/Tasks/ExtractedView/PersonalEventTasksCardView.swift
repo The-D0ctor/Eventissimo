@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct PersonalEventTasksCardView: View {
+    @Binding var dataBase: DataBase
     @Binding var event: EventApp
     @Binding var tasksList: [TaskApp]
+    @State var currentIndex : Int = 2
+
     var body: some View {
         VStack{
             NavigationLink {
-                EventListTaskView(tasksList:$tasksList)
+                EventListTaskView(dataBase:$dataBase, currentIndex: $currentIndex)
             } label: {
                 HStack{
-                    Image(event.image)
+                    event.image?
                         .resizable()
                         .scaledToFill()
                         .frame(width: 40, height: 40)
@@ -31,6 +34,11 @@ struct PersonalEventTasksCardView: View {
                     Image(systemName: "chevron.right")
                         .foregroundStyle(.green500)
                 }
+                .simultaneousGesture(TapGesture().onEnded {
+                    if let eventIndex = dataBase.events.firstIndex(where: { $0.id == event.id }) {
+                                    currentIndex = eventIndex
+                                }
+                            })
             }
             PersonalTasksListView(tasksList: $tasksList)
         }
@@ -41,5 +49,5 @@ struct PersonalEventTasksCardView: View {
 }
 
 #Preview {
-    PersonalEventTasksCardView(event: Binding.constant(events[0]), tasksList: Binding.constant(events[0].tasks))
+    PersonalEventTasksCardView(dataBase: Binding.constant(DataBase()), event: Binding.constant(events[0]), tasksList: Binding.constant(events[0].tasks))
 }

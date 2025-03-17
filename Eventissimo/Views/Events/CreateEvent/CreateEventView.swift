@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct CreateEventView: View {
+    @Environment(\.dismiss) var dismiss
     
-    @State var event = EventApp(name: "", description: "", date: Date.now, localization: "", participants: [], guests: [], image: "", tasks: [], budget: Budget(totalBudget: 0, spendings: []), eventMessages: [])
+    var dataBase: DataBase
+    
+    @State var event = EventApp(name: "", description: "", date: Date.now, localization: "", participants: [], guests: [], image: nil, tasks: [], budget: Budget(totalBudget: 0, spendings: []), eventMessages: [])
     
     var body: some View {
         NavigationStack {
@@ -24,8 +27,8 @@ struct CreateEventView: View {
                         .foregroundStyle(.darkblue700)
                     
                     ScrollView {
-                        VStack(alignment : .leading, spacing: 12) {
-                            AddPhotoButtonView()
+                        VStack(alignment : .center, spacing: 12) {
+                            AddPhotoButtonView(event: $event)
                             
                             //MARK: - Information générales
                             InformationsSectionView(event: $event)
@@ -39,16 +42,21 @@ struct CreateEventView: View {
                             // MARK: - Save button
                             
                             // TODO: rendre fonctionnel le bouton
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.green700)
-                                    .frame(height: 48)
-                                Text("Créer l'évènement")
-                                    .jakarta(size: 20)
-                                    .foregroundColor(.darkblue50)
-                            }
-                            .padding(.top, 20)
-
+                            Button {
+                                event.participants.append(Participant(person: dataBase.currentUser, role: .organizer))
+                                dataBase.events.append(event)
+                                dismiss()
+                            } label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.green700)
+                                        .frame(height: 48)
+                                    Text("Créer l'évènement")
+                                        .jakarta(size: 20)
+                                        .foregroundColor(.darkblue50)
+                                }
+                                .padding(.top, 20)
+                            }.disabled(event.name.isEmpty || event.description.isEmpty || event.localization.isEmpty || event.image == nil)
                         }
                     }
                     .scrollIndicators(.hidden)
@@ -60,7 +68,7 @@ struct CreateEventView: View {
 }
 
 #Preview {
-    CreateEventView()
+    CreateEventView(dataBase: DataBase())
 }
 
 

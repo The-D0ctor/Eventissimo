@@ -20,7 +20,7 @@ struct DiscussionsView: View {
     }
     
     var body: some View {
-        @State var viewModel: DiscussionsViewModel = DiscussionsViewModel(dataBase: dataBase)
+        @Bindable var viewModel: DiscussionsViewModel = DiscussionsViewModel(dataBase: dataBase)
         
         NavigationStack {
             ZStack {
@@ -30,7 +30,7 @@ struct DiscussionsView: View {
                     TabView(selection: $listOptions.selectedChoice) {
                         PrivateConversationsListView(dataBase: viewModel.dataBase, privateConversationsList: $viewModel.currentUserPrivateConversations)
                             .tag(0)
-                        EventsDiscussionsListView(dataBase: viewModel.dataBase, eventsList: $viewModel.dataBase.myEvents)
+                        EventsDiscussionsListView(dataBase: viewModel.dataBase, eventsList: $viewModel.myEvents)
                             .tag(1)
                     }
                     .foregroundStyle(.darkblue900)

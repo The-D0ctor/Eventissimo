@@ -26,7 +26,7 @@ struct MyListTaskView: View {
                     
                     ScrollView {
                         ForEach($viewModel.dataBase.myEvents) { $event in
-                            PersonalEventTasksCardView(event: $event, tasksList: viewModel.getUserEventTasks(event: event))
+                            PersonalEventTasksCardView(dataBase: $viewModel.dataBase, event: $event, tasksList: viewModel.getUserEventTasks(event: event))
                                 .padding(.bottom)
                         }
                     }

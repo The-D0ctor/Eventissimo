@@ -38,11 +38,11 @@ struct EventsListView: View {
                             HStack {
                                 ForEach($dataBase.events) { $event in
                                     NavigationLink {
-                                        EventPageView(event: $event)
+                                        EventPageView(dataBase: dataBase, event: $event)
                                     } label: {
                                         EventsListItemView(event: event)
                                         .scrollTransition() { content, phase in
-                                            content.rotationEffect(.radians(phase.value / 5), anchor: .bottom)
+                                            content.rotationEffect(.radians(phase.value / 8), anchor: .bottom)
                                         }
                                         .visualEffect { view, proxy in
                                             view.offset(y: offset(proxy))
@@ -62,7 +62,7 @@ struct EventsListView: View {
                     .frame(height: 472.5)
                     VStack {
                         NavigationLink {
-                            CreateEventView()
+                            CreateEventView(dataBase: dataBase)
                         } label: {
                             LabelButtonPlusView()
                         }
@@ -103,7 +103,7 @@ struct EventsListView: View {
     func offset(_ proxy: GeometryProxy) -> CGFloat {
         let progress = progress(proxy)
         
-        return progress < 0 ? progress * -50 : progress * 50
+        return progress < 0 ? progress * -30 : progress * 30
     }
     
     nonisolated

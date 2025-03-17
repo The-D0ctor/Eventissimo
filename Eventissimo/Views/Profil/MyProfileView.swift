@@ -11,12 +11,6 @@ import SwiftUI
 
 struct MyProfileView: View {
     @Environment(DataBase.self) var dataBase
-    // 👇 Fonction pour filtrer les évènements de Marion seulement 👇 Il faudrait surement la mettre dans une View Model
-    func getEventsForUser() -> [EventApp] {
-        return events.filter { event in
-            event.participants.contains { $0.person.id == dataBase.currentUser.id } // users[0] correspond à Marion, je ne sais pas si c'est correct et en même temps je ne savais pas comment faire autrement
-        }
-    }
         
     var body: some View {
         @Bindable var viewModel: MyProfileViewModel = MyProfileViewModel(dataBase: dataBase)
@@ -103,7 +97,7 @@ struct MyProfileView: View {
                             HStack(spacing: 14) {
                                 ForEach(viewModel.getEventsForUser()) { $event in
                                     NavigationLink {
-                                        EventPageView(event: $event)
+                                        EventPageView(dataBase: viewModel.dataBase, event: $event)
                                     } label: {
                                         EventCardView(event: event)
                                     }

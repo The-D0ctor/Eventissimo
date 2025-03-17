@@ -7,9 +7,17 @@
 
 import SwiftUI
 
-struct AuthView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct AuthView: UIViewControllerRepresentable {
+    let viewModel: AuthViewModel = AuthViewModel()
+    
+    func makeUIViewController(context: Context) -> UINavigationController {
+        let viewController = viewModel.authUI?.authViewController()
+        
+        return viewController!
+    }
+    
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+        
     }
 }
 

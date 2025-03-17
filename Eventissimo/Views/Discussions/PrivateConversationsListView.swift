@@ -17,9 +17,9 @@ struct PrivateConversationsListView: View {
                 ForEach($privateConversationsList) { $privateConversation in
                     let otherPerson = privateConversation.person1.id == dataBase.currentUser.id ? privateConversation.person2 : privateConversation.person1
                     NavigationLink {
-                        MessagesListView(dataBase: dataBase, image: otherPerson.profilePicture ?? "", title: otherPerson.name, messages: $privateConversation.messages)
+                        MessagesListView(dataBase: dataBase, image: Image(otherPerson.profilePicture ?? ""), title: otherPerson.name, messages: $privateConversation.messages)
                     } label: {
-                        DiscussionDetailView(image: otherPerson.profilePicture ?? "", title: otherPerson.name, messages: privateConversation.messages)
+                        DiscussionDetailView(image: Image(otherPerson.profilePicture ?? ""), title: otherPerson.name, messages: privateConversation.messages)
                     }
                 }
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EventPageView: View {
-    @Environment(DataBase.self) var dataBase
+    var dataBase: DataBase
     
     @Binding var event: EventApp
     
@@ -44,7 +44,7 @@ struct EventPageView: View {
                     
                     VStack {
                         PickerChoices(choices: listOptions)
-                        NavigationLink(destination: GuestsListView(event: event)) {
+                        NavigationLink(destination: GuestsListView(dataBase: dataBase, event: event)) {
                             if listOptions.selectedChoice == 0 {
                                 ParticipantsView(participants: event.participants, isBlackAndWhite: false)
                             } else {
@@ -81,7 +81,7 @@ struct EventPageView: View {
                             }
                             .frame(maxWidth: .infinity)
                             NavigationLink(destination: {
-                                BudgetView(viewModel: BudgetViewModel(evenement: event))
+                                BudgetView(dataBase: dataBase, viewModel: BudgetViewModel(evenement: event))
                             }, label: {
                                 VStack(alignment: .leading){
                                     Text("Derniers achats")
@@ -126,7 +126,7 @@ struct EventPageView: View {
     }
 }
 #Preview {
-    EventPageView(event: Binding.constant(events[1]))
+    EventPageView(dataBase: DataBase(), event: Binding.constant(events[1]))
         .environment(DataBase())
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DiscussionDetailView: View {
-    var image: String
+    var image: Image?
     var title: String
     var messages: [MessageApp]
     var dateFormatter: DateFormatter {
@@ -25,7 +25,7 @@ struct DiscussionDetailView: View {
     
     var body: some View {
         HStack {
-            Image(image)
+            image?
                 .resizable()
                 .scaledToFill()
                 .frame(width: 50, height: 50)

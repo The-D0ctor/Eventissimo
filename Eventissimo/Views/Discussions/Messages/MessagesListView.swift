@@ -11,7 +11,7 @@ struct MessagesListView: View {
     @Environment(\.dismiss) var dismiss
     var dataBase: DataBase
     
-    var image: String
+    var image: Image?
     var title: String
     @Binding var messages: [MessageApp]
     var isEvent: Bool = false
@@ -63,7 +63,7 @@ struct MessagesListView: View {
                     } label: {
                         Image(systemName: "arrow.left")
                     }
-                    Image(image)
+                    image?
                         .resizable()
                         .scaledToFill()
                         .frame(width: 44, height: 44)

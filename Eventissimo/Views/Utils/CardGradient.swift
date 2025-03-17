@@ -12,9 +12,9 @@ struct CardGradient: View {
     var height: CGFloat
     
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [Color(red: 36/255, green: 41/255, blue: 39/255, opacity: 0.6), Color.clear]),
+        LinearGradient(gradient: Gradient(colors: [Color(red: 36/255, green: 41/255, blue: 39/255, opacity: 1), Color.clear]),
                        startPoint: .bottom,
-                       endPoint: .top)
+                       endPoint: .center)
         .frame(width: width, height: height)
         .cornerRadius(20)
         .padding(.bottom, 0)

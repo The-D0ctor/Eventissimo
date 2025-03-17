@@ -7,6 +7,7 @@
 
 import Foundation
 import SimpleCalendar
+import SwiftUI
 
 struct EventApp: Identifiable {
     var id: UUID = UUID()
@@ -22,7 +23,7 @@ struct EventApp: Identifiable {
         }
     }
     
-    var image: String
+    var image: Image?
     var tasks: [TaskApp]
     var budget: Budget
     var eventMessages: [MessageApp]
