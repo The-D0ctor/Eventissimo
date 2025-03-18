@@ -20,72 +20,59 @@ struct BudgetGlobalView: View {
                         Color.darkblue200.opacity(0.4)
                     }
                     HStack(spacing:0){
-                        
                         ForEach(viewModel.listSpendingsByCategory.keys.sorted(), id: \.self) { key in
                             if let spendings = viewModel.listSpendingsByCategory[key]{
                                 if !spendings.isEmpty{
                                     Rectangle()
                                         .frame(width: geometry.size.width * (viewModel.additionSpendingByCategory(listSpendings: spendings)/viewModel.budget.totalBudget))
                                         .foregroundStyle(spendings[0].role.color)
-                                    
                                 }}}
-                        
                     }
-                    
                 }
-                
                 .frame(width: .infinity, height: 30)
                 .clipShape(.rect(cornerRadius: 50))
-                
-                
                 HStack{
                     VStack{
                         Text("Total")
                             .jakarta(size: 14)
                             .bold()
-                        
                             .padding(.bottom, 4)
                         Text("\(viewModel.budget.totalBudget, specifier: "%.0f") €")
                             .jakarta(size: 14)
                     }
+                    .frame(width: 80, height: 48)
                     .padding(8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.green500, lineWidth: 1)
-                    )
-                    
+                            .stroke(Color.green500, lineWidth: 1))
                     Spacer()
                     VStack{
                         Text("Dépensé")
                             .jakarta(size: 14)
                             .bold()
-                        
                             .padding(.bottom, 4)
                         Text("\(viewModel.budget.totalSpend, specifier: "%.2f") €")
                             .jakarta(size: 14)
                     }
+                    .frame(width: 80, height: 48)
                     .padding(8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.green500, lineWidth: 1)
-                    )
-                    
+                            .stroke(Color.green500, lineWidth: 1))
                     Spacer()
                     VStack{
                         Text("Restant")
                             .jakarta(size: 14)
                             .bold()
-                        
                             .padding(.bottom, 4)
                         Text("\(viewModel.budget.totalRemaining, specifier: "%.2f") €")
                             .jakarta(size: 14)
                     }
+                    .frame(width: 80, height: 48)
                     .padding(8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.green500, lineWidth: 1)
-                    )
-                    
+                            .stroke(Color.green500, lineWidth: 1))
                 }
                 .padding()
                 .foregroundStyle(Color.darkblue700)
@@ -93,7 +80,6 @@ struct BudgetGlobalView: View {
                 ForEach(viewModel.listSpendingsByCategory.keys.sorted(), id: \.self) { key in
                     if let spendings = viewModel.listSpendingsByCategory[key]{
                         if !spendings.isEmpty{
-                            
                             HStack{
                                 Circle()
                                     .foregroundStyle(spendings[0].role.color)
@@ -103,14 +89,12 @@ struct BudgetGlobalView: View {
                                     .scaledToFit()
                                     .frame(width: 16, height: 16)
                                 Text(spendings[0].role.rawValue)
-                                    .jakarta(size: 16)
-                                
+                                    .jakarta(size: 14)
                                 Spacer()
-                                
                                 Text("\(viewModel.additionSpendingByCategory(listSpendings: spendings), specifier: "%.2f") €")
+                                    .jakarta(size: 14)
+                                    .fontWeight(.light)
                             }
-                            
-                            
                         } }}
             }
             .padding()
@@ -125,38 +109,29 @@ struct BudgetGlobalView: View {
                             HStack{
                                 Image(systemName: spendings[0].role.icon)
                                 Text("\(key.rawValue)")
-                                    .jakarta(size: 16)
+                                    .jakarta(size: 14)
+                                    .fontWeight(.bold)
                                 
                                 Spacer()
                                 
                                 Text("\(viewModel.additionSpendingByCategory(listSpendings: spendings), specifier: "%.2f") €")
+                                    .jakarta(size: 14)
+                                    .fontWeight(.semibold)
                             }
-                            .padding()
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, 12)
                             .background(key.color)
-                            
-                            
-                            
+                        
                             VStack{
-                                
-                                
-                                
-                                
                                 OneSpending(spend: spendings[0])
-                                
-                                
                                 ForEach(spendings[1...]){spend in
-                                    
                                     Divider()
                                         .padding(.vertical, 5)
-                                    
-                                    
                                     OneSpending(spend: spend)
                                 }
-                                
-                                
                             }
-                            .padding()
-                            
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, 8)
                         }
                     }
                 }

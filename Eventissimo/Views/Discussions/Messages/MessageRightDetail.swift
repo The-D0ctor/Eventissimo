@@ -22,13 +22,13 @@ struct MessageRightDetail: View {
                 Text(message.text)
                     .jakarta(size: 12)
                     .foregroundStyle(.darkblue900)
-                    .padding(.vertical, 5)
+                    .padding(.vertical, 6)
                 Text(dateFormatter.string(from: message.date))
                     .jakarta(size: 8)
                     .foregroundStyle(.darkblue400)
                     .fontWeight(.light)
             }
-            .padding(8)
+            .padding(12)
             .background {
                 SpeechBubbleRight()
                     .foregroundStyle(.green500)

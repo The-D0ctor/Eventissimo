@@ -20,30 +20,21 @@ struct BudgetView: View {
         ZStack{
             Color.darkblue50
                 .ignoresSafeArea()
-            
                 VStack{
                     BudgetGlobalView(viewModel: viewModel)
-                        
                 }
-            
                 .padding([.horizontal], 24)
             
-            
             if viewModel.isActive {
-                
                 ZStack{
                     Color(.black.opacity(0.5))
                         .ignoresSafeArea()
                         .onTapGesture {
                             viewModel.isActive = !viewModel.isActive
                         }
-                    
                     AddSpendingView(dataBase: dataBase, viewModel: viewModel)
-                    
                 }
-                
             }
-            
         }
         .navigationBarBackButtonHidden()
         .toolbar {
@@ -60,19 +51,16 @@ struct BudgetView: View {
                         .frame(width: 40, height: 40)
                         .clipShape(Circle())
                     Text(viewModel.evenement.name)
-                        .serif(size: 18)
+                        .serif(size: 16)
                         .fontWeight(.medium)
                         .padding(.leading, 8)
                     }
                 .foregroundColor(.darkblue900)
             }
             ToolbarItem(placement: .topBarTrailing) {
-                
                     VStack{
                         Button(action: {
-                            
                             viewModel.isActive = !viewModel.isActive
-                            
                         }, label: {
                             Image("plus")
                                 .resizable()
@@ -84,8 +72,6 @@ struct BudgetView: View {
                                 .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
                                 .rotationEffect(.degrees(
                                     viewModel.isActive ? 45 : 0))
-                            
-                            
                         })
                     }
             }

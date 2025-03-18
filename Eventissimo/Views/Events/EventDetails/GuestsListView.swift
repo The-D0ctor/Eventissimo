@@ -5,14 +5,13 @@ struct GuestsListView: View {
     var selectedChoice: Int = 0
     @State var viewModel: GuestSelectionViewModel
     
-    
-    @Environment(\.dismiss) var dismiss // var pour cacher la navbar
+    @Environment(\.dismiss) var dismiss
     
     @State var listOptions: PickerChoiceViewModel = PickerChoiceViewModel(listChoices: ["Participent", "Ne participent pas"])
-    @State private var showOptions = false
+    //    @State private var showOptions = false
     @State private var showGuestSelectionSheet = false
     
-    @State private var invitationLink: String = "http://example.com/invitation-link"
+    @State private var invitationLink: String = "eventissimo/1231312/47"
     @State private var showInvitationLink = false
     @State private var showCopiedPopup = false
     
@@ -21,7 +20,7 @@ struct GuestsListView: View {
         VStack(spacing: 12) {
             HStack {
                 Button {
-                    dismiss() // ici c'est le bouton "Back"
+                    dismiss()
                 } label: {
                     Image(systemName: "arrow.left")
                         .font(.system(size: 24))
@@ -51,22 +50,6 @@ struct GuestsListView: View {
                                     NavigationLink(destination: ProfileView(dataBase: dataBase, person: participant.person).navigationBarBackButtonHidden()) {
                                         GuestRowView(participant: participant)
                                     }
-                                    .contentShape(Rectangle())
-                                    .swipeActions(edge: .trailing) {
-                                        // 🙋‍♀️ Le swipe de droite à gauche ne fonctionne pas. A revoir ici et ajouter les fonctionnalités des boutons
-                                        Button(role: .destructive) {
-                                            // 🙋‍♀️ Ajouter ici la logique pour supprimer un invité
-                                        } label: {
-                                            Label("Supprimer", systemImage: "trash")
-                                        }
-                                        .tint(.red)
-                                        Button {
-                                            // 🙋‍♀️ Ajouter ici la logique pour définir un admin
-                                        } label: {
-                                            Label("Admin", systemImage: "person.fill.badge.plus")
-                                        }
-                                        .tint(.blue)
-                                    }
                                     Divider()
                                 }
                             } else {
@@ -82,106 +65,83 @@ struct GuestsListView: View {
                         .padding(.vertical, 16)
                     }
                     VStack {
-                        HStack(spacing: 10) {
-                            if showOptions == true {
-                                Button {
-                                    showGuestSelectionSheet = true
-                                    // 🙋‍♀️ à faire : ajouter le fait de pouvoir cocher et rajouter les nouveaux invités
-                                    showOptions = false
-                                } label: {
-                                    Text("Ajouter manuellement")
-                                        .jakarta(size: 12)
-                                }
-                                .foregroundColor(.white)
-                                .frame(width: 100, height: 40)
-                                .background(Color.green650)
-                                .cornerRadius(10)
-                            }
-                            Button {
-                                //withAnimation {
-                                showOptions.toggle()
-                                showInvitationLink = false
-                                //}
-                            } label: {
-                                Image(systemName: "plus.circle")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                                    .foregroundStyle(.green650)
-                            }
-                            .animation(.easeInOut, value: showOptions)
-                            if showOptions == true {
-                                Button {
-                                    showOptions = true
-                                    showInvitationLink = true
-                                } label: {
-                                    Text("Générer un lien")
-                                        .jakarta(size: 12)
-                                }
-                                .foregroundColor(.white)
-                                .frame(width: 100, height: 40)
-                                .background(Color.green650)
-                                .cornerRadius(10)
-                            }
+                        Button {
+                            showGuestSelectionSheet = true
+                        } label: {
+                            Text("Ajouter manuellement")
+                                .jakarta(size: 14)
+                                .fontWeight(.semibold)
                         }
-                        .frame(maxWidth: .infinity)
-                        if showInvitationLink == true {
-                            HStack {
-                                Text(invitationLink)
-                                    .jakarta(size: 12)
-                                Image(systemName: "document.on.document")
-                                    .resizable()
-                                    .frame(width: 12, height: 12)
+                        .padding()
+                        .foregroundStyle(.white)
+                        .background(Color.green650)
+                        .cornerRadius(12)
+                        
+                        Text("Envoyer une invitation")
+                            .jakarta(size: 14)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.darkblue400)
+                            .padding(.top, 30)
+                        
+                        
+                        HStack {
+                            Image("lien")
+                            Text(invitationLink).jakarta(size: 12).foregroundColor(.darkblue200)
+                            Spacer()
+                            Image("copier")
+                        }
+                        .padding(.leading, 10)
+                        .foregroundColor(.gray)
+                        .frame(width: 230, height: 25)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .shadow(color: Color.black.opacity(0.2), radius: 2)
+                        .onTapGesture {
+                            UIPasteboard.general.string = invitationLink
+                            withAnimation {
+                                showCopiedPopup = true
                             }
-                            .foregroundColor(.gray)
-                            .frame(width: 230, height: 25)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .padding(.top, 10)
-                            .shadow(color: Color.black.opacity(0.2), radius: 2)
-                            .onTapGesture {
-                                UIPasteboard.general.string = invitationLink
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 withAnimation {
-                                    showCopiedPopup = true
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                    withAnimation {
-                                        showCopiedPopup = false
-                                    }
+                                    showCopiedPopup = false
                                 }
                             }
                         }
+                        
                         if showCopiedPopup == true {
                             Text("Copié !")
                                 .jakarta(size: 12)
                                 .foregroundColor(.white)
                                 .padding(8)
                                 .background(Color.black.opacity(0.7))
-                                .cornerRadius(12)
+                                .cornerRadius(8)
                                 .transition(.opacity)
                                 .animation(.easeInOut, value: showCopiedPopup)
                         }
                     }
-                    .padding(.top, 20)
+                    
                 }
+                .padding(.top, 20)
             }
         }
         .padding(.horizontal, 24)
         .background(Color.darkblue50)
-        .navigationBarBackButtonHidden(true) // ici pour cacher la navBar
+        .navigationBarBackButtonHidden(true)
         .sheet(isPresented: $showGuestSelectionSheet) {
-            GuestSelectionSheet(viewModel: $viewModel) // ici ça affiche la liste des users
+            GuestSelectionSheet(viewModel: $viewModel)
         }
         .gesture(TapGesture().onEnded {
             withAnimation {
                 showInvitationLink = false
-                showOptions = false
             }
         })
         .onAppear {
             listOptions.selectedChoice = selectedChoice
         }
     }
+    
 }
+
 
 #Preview {
     GuestsListView(dataBase: DataBase(), selectedChoice: 0, viewModel: GuestSelectionViewModel(event: events[1]))

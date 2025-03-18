@@ -5,7 +5,6 @@
 //  Created by Sébastien Rochelet on 05/03/2025.
 //
 
-// A envoyer : ProfileView, EventCardView, données Event, données Person, assets: EventPicture et ProfilePicture
 
 import SwiftUI
 
@@ -21,7 +20,12 @@ struct MyProfileView: View {
                     VStack(spacing: 10) {
                         if let profilePicture = dataBase.currentUser.profilePicture {
                             profilePicture
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 140, height: 140)
+                                .clipShape(Circle())
                         }
+                        
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.white)
@@ -30,17 +34,21 @@ struct MyProfileView: View {
                                 Text(dataBase.currentUser.name.components(separatedBy: " ").first ?? "")
                                     .jakarta(size: 18)
                                     .fontWeight(.semibold)
+                                    .foregroundStyle(.darkblue700)
                                 
                                 if let age = dataBase.currentUser.age {
                                     Text("\(age) ans")
                                         .jakarta(size: 16)
                                         .fontWeight(.regular)
+                                        .foregroundStyle(.darkblue200)
                                 }
                                 Text("\(dataBase.currentUser.pronouns.rawValue)")
                                     .jakarta(size: 14)
                                     .fontWeight(.light)
+                                    .foregroundStyle(.darkblue200)
                             }
                         }
+                        .padding(.top, 12)
                         if let description = dataBase.currentUser.description {
                             Text("\"\(description)\"")
                                 .jakarta(size: 14)

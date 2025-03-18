@@ -8,24 +8,29 @@
 import Foundation
 import SwiftUI
 
-
-struct Person: Identifiable, Equatable, Codable {
-    var id: UUID = UUID()
+@MainActor
+struct Person: Identifiable, Equatable, Codable, Hashable {
+    var id: String = UUID().uuidString
     var name: String
     var email: String
-    var profilePicture: Image?/* {
+    var profilePicture: Image? {
         get {
             if let base64Data = profilePictureData, let data = Data(base64Encoded: base64Data) {
-                Image(uiImage: UIImage(data: data)!)
+                return Image(uiImage: UIImage(data: data)!)
             }
-            else {
+            else if let profilePictureName = profilePictureName {
+                return Image(profilePictureName)
+            } else {
                 return nil
             }
         }
-        set {
-            
+        set(newImage) {
+            if let newImage = newImage {
+                self.profilePictureData = ImageRenderer(content: newImage).uiImage?.pngData()?.base64EncodedString()
+            }
         }
-    }*/
+    }
+    var profilePictureName: String?
     var profilePictureData: String?
     var age: Int?
     var description: String?

@@ -44,12 +44,13 @@ struct MessagesListView: View {
                         typedText = ""
                     } label: {
                         HStack {
-                            Text("Envoyer")
-                                .jakarta(size: 14)
+//                            Text("Envoyer")
+//                                .jakarta(size: 14)
                             Image(systemName: "paperplane")
-                        }.padding(6)
+                        }
+                        .padding(12)
                             .background(.green650)
-                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
                             .foregroundStyle(.darkblue50)
                     }
                 }
@@ -71,8 +72,9 @@ struct MessagesListView: View {
                         .frame(width: 44, height: 44)
                         .clipShape(Circle())
                     Text(title)
-                        .jakarta(size: 16)
+                        .serif(size: 16)
                         .fontWeight(.medium)
+                        .padding(.leading, 8)
                 }
                 .foregroundColor(.darkblue900)
             }

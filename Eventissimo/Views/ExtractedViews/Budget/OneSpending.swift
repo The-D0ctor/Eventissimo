@@ -15,20 +15,24 @@ struct OneSpending: View {
             (spend.person.profilePicture ?? Image(""))
                 .resizable()
                 .scaledToFill()
-                .frame(width: 52, height: 52)
+                .frame(width: 40, height: 40)
                 .clipped()
                 .clipShape(Circle())
             
             VStack(alignment: .leading){
                 Text(spend.person.name)
-                    .jakarta(size: 16)
+                    .jakarta(size: 14)
+                    .fontWeight(.medium)
                 
                 Text(spend.descriptionSpend ?? "")
-                    .jakarta(size: 14)
+                    .jakarta(size: 13)
                     .foregroundStyle(.darkblue400)
             }
+            .padding(.leading, 4)
             Spacer()
             Text("\(spend.amount, specifier: "%.2f") €")
+                .jakarta(size: 13)
+        
         }
     }
 }

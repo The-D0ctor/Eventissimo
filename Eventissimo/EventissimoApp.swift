@@ -15,7 +15,9 @@ struct EventissimoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            /*ContentView()
+                .environment(dataBase)*/
+            AuthView()
                 .environment(dataBase)
         }
     }

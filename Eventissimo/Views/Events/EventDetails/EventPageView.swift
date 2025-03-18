@@ -12,8 +12,8 @@ struct EventPageView: View {
     
     @Binding var event: EventApp
     
-    @State private var isAccepted = false
-        
+    @State private var isAccepted = true
+    
     @State var listOptions: PickerChoiceViewModel = PickerChoiceViewModel(listChoices: ["Participent", "Ne participent pas"], selectedButtonBackgroundColor: Color.green650, textColor: Color.white)
     
     var body: some View {
@@ -26,21 +26,21 @@ struct EventPageView: View {
                         .foregroundStyle(.green900)
                         .padding(.horizontal, 10)
                     
-                    Button {  withAnimation(.easeInOut(duration: 0.2)) {
-                        isAccepted.toggle()
-                        // 🙋‍♀️ Lucie : ajouter la fonctionalité : cliquer sur "Accepter l'invitation" ajoute la personne au tableau de Participants de l'event concerné, et inversement
-                    } } label: {
-                        Text(isAccepted ? "✓  Acceptée" : "Accepter l'invitation")
-                            .jakarta(size: 16)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(isAccepted ? Color.green200 : Color.green650)
-                            .foregroundColor(isAccepted ? Color.darkblue400 : Color.white)
-                            .fontWeight(isAccepted ? .regular : .bold)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(isAccepted ? Color.darkblue200 : Color.clear, lineWidth: 1))
-                            .cornerRadius(16)
-                    }
-                    .animation(.easeInOut(duration: 0.2), value: isAccepted)
+//                    Button {  withAnimation(.easeInOut(duration: 0.2)) {
+//                        isAccepted.toggle()
+//                        // 🙋‍♀️ Lucie : ajouter la fonctionalité : cliquer sur "Accepter l'invitation" ajoute la personne au tableau de Participants de l'event concerné, et inversement
+//                    } } label: {
+//                        Text(isAccepted ? "✓  Acceptée" : "Accepter l'invitation")
+//                            .jakarta(size: 16)
+//                            .frame(maxWidth: .infinity)
+//                            .padding()
+//                            .background(isAccepted ? Color.green200 : Color.green650)
+//                            .foregroundColor(isAccepted ? Color.darkblue400 : Color.white)
+//                            .fontWeight(isAccepted ? .regular : .bold)
+//                            .overlay(RoundedRectangle(cornerRadius: 16).stroke(isAccepted ? Color.darkblue200 : Color.clear, lineWidth: 1))
+//                            .cornerRadius(16)
+//                    }
+//                    .animation(.easeInOut(duration: 0.2), value: isAccepted)
                     
                     VStack {
                         PickerChoices(choices: listOptions)
@@ -59,9 +59,15 @@ struct EventPageView: View {
                                 EventListTaskView(dataBase: $dataBase, event: $event)
                             } label: {
                                 VStack(alignment: .leading) {
-                                    Text("Tâches accomplies")
-                                        .serif(size: 18)
-                                        .foregroundStyle(Color.darkblue700)
+                                    HStack(alignment: .bottom) {
+                                        Text("Tâches accomplies")
+                                            .serif(size: 18)
+                                            .foregroundStyle(Color.darkblue700)
+                                        Spacer()
+                                        Text("Voir plus")
+                                            .jakarta(size: 12)
+                                            .foregroundStyle(Color.green650)
+                                    }
                                     ZStack(alignment: .leading) {
                                         RoundedRectangle(cornerRadius: 10)
                                             .fill(Color.darkblue200.opacity(0.3))
@@ -90,20 +96,29 @@ struct EventPageView: View {
                                 BudgetView(dataBase: dataBase, viewModel: BudgetViewModel(evenement: event))
                             }, label: {
                                 VStack(alignment: .leading){
-                                    Text("Derniers achats")
-                                        .serif(size: 18)
-                                        .foregroundStyle(Color.darkblue700)
-                                        .padding(.top, 8)
-                                    if let spend = event.budget.spendings.first{
-                                        SpendInEvent(spend: spend)
+                                    HStack(alignment: .bottom) {
+                                        Text("Derniers achats")
+                                            .serif(size: 18)
+                                            .foregroundStyle(Color.darkblue700)
+                                        Spacer()
+                                        Text("Voir plus")
+                                            .jakarta(size: 12)
+                                            .foregroundStyle(Color.green650)
                                     }
-                                    
-                                    if event.budget.spendings.count > 1 {
-                                        let spendTwo = event.budget.spendings[1]
-                                        Divider()
-                                        SpendInEvent(spend: spendTwo)
+                                    .padding(.top, 24)
+                                    if event.budget.spendings.isEmpty {
+                                        Text("Pas d'achat pour le moment")
+                                            .jakarta(size: 14)
+                                            .foregroundStyle(Color.darkblue200)
+                                    } else {
+                                        SpendInEvent(spend: event.budget.spendings.first!)
+                                        
+                                        if event.budget.spendings.count > 1 {
+                                            let spendTwo = event.budget.spendings[1]
+                                            Divider()
+                                            SpendInEvent(spend: spendTwo)
+                                        }
                                     }
-                                    
                                 }
                             })
                         }
@@ -139,7 +154,7 @@ struct EventPageView: View {
     }
 }
 #Preview {
-    EventPageView(dataBase: Binding.constant(DataBase()), event: Binding.constant(events[1]))
+    EventPageView(dataBase: Binding.constant(DataBase()), event: Binding.constant(events[3]))
         .environment(DataBase())
 }
 
