@@ -32,4 +32,20 @@ class MyProfileViewModel {
             }
         }
     }
+    
+    func getEventsParticipated() -> Int {
+        return dataBase.events.filter { event in
+            event.participants.contains { user in
+                user.person.id == self.dataBase.currentUser.id
+            }
+        }.count
+    }
+    
+    func getEventsOrganized() -> Int {
+        return dataBase.events.filter { event in
+            event.participants.contains { user in
+                user.person.id == self.dataBase.currentUser.id && user.role == .organizer
+            }
+        }.count
+    }
 }

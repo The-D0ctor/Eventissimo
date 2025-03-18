@@ -16,12 +16,14 @@ struct EventApp: Identifiable {
     var date: Date
     var localization: String
     var participants: [Participant]
-    var guests: [Participant]
-    var nonParticipants: [Participant] {
-        guests.filter { participant in
-            !participants.contains { $0.person.id == participant.person.id }
+    var listUsers: [Participant] {
+        allInvited.filter { participant in
+            !participants.contains { $0.person.id == participant.person.id } && !nonParticipants.contains { $0.person.id == participant.person.id }
         }
     }
+    
+    var nonParticipants: [Participant]
+
     
     var image: Image?
     var tasks: [TaskApp]

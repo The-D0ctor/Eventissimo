@@ -13,7 +13,7 @@ struct LabelButtonPlusView: View {
             .resizable()
             .frame(width: 30, height: 30)
             .padding(15)
-            .background(Color.darkblue700)
+            .background(Color.green650)
             .clipShape(Circle())
             .foregroundStyle(.white)
     }

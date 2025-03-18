@@ -8,11 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2C6638E02D803F370060891F /* SimpleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 2C6638DF2D803F370060891F /* SimpleCalendar */; };
-		2C8F29DD2D880CD80027C1E7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29DC2D880CD80027C1E7 /* FirebaseAuth */; };
-		2C8F29E22D880E470027C1E7 /* FirebaseAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29E12D880E470027C1E7 /* FirebaseAuthUI */; };
-		2C8F29E42D880E470027C1E7 /* FirebaseEmailAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29E32D880E470027C1E7 /* FirebaseEmailAuthUI */; };
-		2C8F29E62D880E470027C1E7 /* FirebaseGoogleAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29E52D880E470027C1E7 /* FirebaseGoogleAuthUI */; };
-		2C8F29E82D880E470027C1E7 /* FirebaseOAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8F29E72D880E470027C1E7 /* FirebaseOAuthUI */; };
+		2CEE92CC2D895E91001E6B69 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2CEE92CB2D895E91001E6B69 /* FirebaseFirestore */; };
+		2CEE92CE2D895E91001E6B69 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2CEE92CD2D895E91001E6B69 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,12 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C8F29E62D880E470027C1E7 /* FirebaseGoogleAuthUI in Frameworks */,
-				2C8F29E82D880E470027C1E7 /* FirebaseOAuthUI in Frameworks */,
-				2C8F29E42D880E470027C1E7 /* FirebaseEmailAuthUI in Frameworks */,
 				2C6638E02D803F370060891F /* SimpleCalendar in Frameworks */,
-				2C8F29E22D880E470027C1E7 /* FirebaseAuthUI in Frameworks */,
-				2C8F29DD2D880CD80027C1E7 /* FirebaseAuth in Frameworks */,
+				2CEE92CC2D895E91001E6B69 /* FirebaseFirestore in Frameworks */,
+				2CEE92CE2D895E91001E6B69 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,11 +88,8 @@
 			name = Eventissimo;
 			packageProductDependencies = (
 				2C6638DF2D803F370060891F /* SimpleCalendar */,
-				2C8F29DC2D880CD80027C1E7 /* FirebaseAuth */,
-				2C8F29E12D880E470027C1E7 /* FirebaseAuthUI */,
-				2C8F29E32D880E470027C1E7 /* FirebaseEmailAuthUI */,
-				2C8F29E52D880E470027C1E7 /* FirebaseGoogleAuthUI */,
-				2C8F29E72D880E470027C1E7 /* FirebaseOAuthUI */,
+				2CEE92CB2D895E91001E6B69 /* FirebaseFirestore */,
+				2CEE92CD2D895E91001E6B69 /* FirebaseStorage */,
 			);
 			productName = Eventissimo;
 			productReference = 2C2620B82D78831A0010D0E7 /* Eventissimo.app */;
@@ -131,7 +122,6 @@
 			packageReferences = (
 				2C6638DE2D803F370060891F /* XCRemoteSwiftPackageReference "SimpleCalendar" */,
 				2C8F29DB2D880CD80027C1E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2C2620B92D78831A0010D0E7 /* Products */;
@@ -395,14 +385,6 @@
 				minimumVersion = 11.9.0;
 			};
 		};
-		2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebaseui-ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 15.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -411,30 +393,15 @@
 			package = 2C6638DE2D803F370060891F /* XCRemoteSwiftPackageReference "SimpleCalendar" */;
 			productName = SimpleCalendar;
 		};
-		2C8F29DC2D880CD80027C1E7 /* FirebaseAuth */ = {
+		2CEE92CB2D895E91001E6B69 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2C8F29DB2D880CD80027C1E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
+			productName = FirebaseFirestore;
 		};
-		2C8F29E12D880E470027C1E7 /* FirebaseAuthUI */ = {
+		2CEE92CD2D895E91001E6B69 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */;
-			productName = FirebaseAuthUI;
-		};
-		2C8F29E32D880E470027C1E7 /* FirebaseEmailAuthUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */;
-			productName = FirebaseEmailAuthUI;
-		};
-		2C8F29E52D880E470027C1E7 /* FirebaseGoogleAuthUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */;
-			productName = FirebaseGoogleAuthUI;
-		};
-		2C8F29E72D880E470027C1E7 /* FirebaseOAuthUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2C8F29E02D880E470027C1E7 /* XCRemoteSwiftPackageReference "firebaseui-ios" */;
-			productName = FirebaseOAuthUI;
+			package = 2C8F29DB2D880CD80027C1E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

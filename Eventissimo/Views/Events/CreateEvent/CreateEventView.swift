@@ -12,9 +12,10 @@ struct CreateEventView: View {
     
     var dataBase: DataBase
     
-    @State var event = EventApp(name: "", description: "", date: Date.now, localization: "", participants: [], guests: [], image: nil, tasks: [], budget: Budget(totalBudget: 0, spendings: []), eventMessages: [])
+    @State var event = EventApp(name: "", description: "", date: Date.now, localization: "", participants: [], nonParticipants: [], image: nil, tasks: [], budget: Budget(totalBudget: 0, spendings: []), eventMessages: [])
     
     var body: some View {
+        
         NavigationStack {
             ZStack {
                 Color.darkblue50.ignoresSafeArea()
@@ -37,7 +38,7 @@ struct CreateEventView: View {
                             TaskSectionView(event: $event)
                             
                             //MARK: - Invitation
-                            ParticipantsSectionView(event: $event)
+                            ParticipantsSectionView(viewModel: GuestSelectionViewModel(event: event),event: $event)
                             
                             // MARK: - Save button
                             

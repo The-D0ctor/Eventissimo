@@ -20,7 +20,7 @@ struct MyProfileView: View {
                 ScrollView {
                     VStack(spacing: 10) {
                         if let profilePicture = dataBase.currentUser.profilePicture {
-                            Image(profilePicture)
+                            profilePicture
                         }
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -54,33 +54,35 @@ struct MyProfileView: View {
                                 }
                                 .padding(.vertical, 10)
                         }
-                        HStack(spacing: 25) {
-                            VStack(alignment: .center, spacing: 4)  {
-                                Text("\(dataBase.currentUser.eventOrganized ?? 0)")
-                                    .serif(size: 24)
-                                Text("Évènements\norganisés")
-                                    .jakarta(size: 14)
-                                    .multilineTextAlignment(.center)
-                                    .fontWeight(.regular)
-                            }
-                            .padding(.horizontal, 24)
-                            .padding(.vertical, 12)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            Divider()
-                                .frame(width: 1, height: 80)
-                                .overlay(.darkblue400)
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.white)
-                                    .frame(width: 140, height: 90)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.white)
+                                .frame(width: 260, height: 90)
+                            HStack(spacing: 25) {
                                 VStack(alignment: .center, spacing: 4)  {
-                                    Text("\(dataBase.currentUser.eventParticipated ?? 0)")
+                                    Text("\(viewModel.getEventsOrganized())")
                                         .serif(size: 24)
-                                    Text("Évènements\nparticipés")
-                                        .jakarta(size: 14)
+                                        .foregroundStyle(.darkblue700)
+                                    Text("Évènements\norganisés")
+                                        .jakarta(size: 12)
                                         .multilineTextAlignment(.center)
                                         .fontWeight(.regular)
+                                        .foregroundStyle(.darkblue200)
+                                }
+                                Rectangle()
+                                    .frame(width: 1, height: 65)
+                                    .foregroundStyle(.darkblue200)
+                                    .opacity(0.4)
+                                
+                                VStack(alignment: .center, spacing: 4)  {
+                                    Text("\(viewModel.getEventsParticipated())")
+                                        .serif(size: 24)
+                                        .foregroundStyle(.darkblue700)
+                                    Text("Évènements\nparticipés")
+                                        .jakarta(size: 12)
+                                        .multilineTextAlignment(.center)
+                                        .fontWeight(.regular)
+                                        .foregroundStyle(.darkblue200)
                                 }
                                 .cornerRadius(10)
                             }
@@ -97,7 +99,7 @@ struct MyProfileView: View {
                             HStack(spacing: 14) {
                                 ForEach(viewModel.getEventsForUser()) { $event in
                                     NavigationLink {
-                                        EventPageView(dataBase: viewModel.dataBase, event: $event)
+                                        EventPageView(dataBase: $viewModel.dataBase, event: $event)
                                     } label: {
                                         EventCardView(event: event)
                                     }

@@ -13,10 +13,7 @@ struct AddSpendingView: View {
     @State var viewModel: BudgetViewModel
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 8)
-                .frame(width: 370, height: 250)
-                .foregroundStyle(.white)
+
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Dépense")
@@ -89,8 +86,9 @@ struct AddSpendingView: View {
                     Spacer()
                 }
             }
-            .padding(.horizontal, 24)
-        }
+            .padding(24)
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 

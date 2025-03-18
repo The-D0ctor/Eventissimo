@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import FirebaseCore
-import FirebaseAuthUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
@@ -16,14 +15,5 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         
         return true
-    }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-        let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String?
-      if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
-        return true
-      }
-      // other URL handling goes here.
-      return false
     }
 }

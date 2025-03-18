@@ -20,42 +20,74 @@ struct ProfileView: View {
         VStack {
             ScrollView {
                 if let profilePicture = person.profilePicture {
-                    Image(profilePicture)
+                   profilePicture
                         .resizable()
                         .scaledToFill()
                         .frame(width: 140, height: 140)
                         .clipShape(Circle())
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white)
-                            .frame(width: 140, height: 90)
-                        VStack(spacing: 4)  {
-                            Text(person.name.components(separatedBy: " ").first ?? "")
-                                .jakarta(size: 18)
-                                .fontWeight(.semibold)
-                            
-                            if let age = person.age {
-                                Text("\(age) ans")
-                                    .jakarta(size: 16)
-                                    .fontWeight(.regular)
+                    HStack(spacing: 36) {
+                        Image(systemName: "bubble.left.and.bubble.right")
+                            .font(.system(size: 14))
+                            .frame(width: 40, height: 40)
+                            .opacity(0)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white)
+                                .frame(width: 140, height: 90)
+                            VStack(spacing: 4)  {
+                                Text(person.name.components(separatedBy: " ").first ?? "")
+                                    .jakarta(size: 18)
+                                    .fontWeight(.semibold)
+                                
+                                if let age = person.age {
+                                    Text("\(age) ans")
+                                        .jakarta(size: 16)
+                                        .fontWeight(.regular)
+                                        .foregroundStyle(.darkblue200)
+                                }
+                                Text("\(person.pronouns.rawValue)")
+                                    .jakarta(size: 14)
+                                    .fontWeight(.light)
                                     .foregroundStyle(.darkblue200)
                             }
-                            Text("\(person.pronouns.rawValue)")
-                                .jakarta(size: 14)
-                                .fontWeight(.light)
-                                .foregroundStyle(.darkblue200)
+                        }
+                        if (person.id != dataBase.currentUser.id) {
+                            NavigationLink {
+                                MessagesListView(dataBase: dataBase, image: (person.profilePicture ?? Image("")), title: person.name, messages: viewModel.privateMessagesWithUser(user: person), isEvent: true)
+                            } label: {
+                                VStack {
+                                    Image(systemName: "bubble.left.and.bubble.right")
+                                        .font(.system(size: 14))
+                                        .frame(width: 40, height: 40)
+                                        .foregroundStyle(.white)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .fill(.green650))
+                                    Text("Message")
+                                        .jakarta(size: 12)
+                                        .foregroundStyle(.darkblue200)
+                                        .fontWeight(.regular)
+                                }
+                            }
+                            .padding(.top, 16)
+                        }
+                        else {
+                            Spacer().frame(maxWidth: 40)
                         }
                     }
                     ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.green200)
-                            .frame(width: 320, height: 40)
-                            .opacity(0.7)
                         if let description = person.description {
                             Text("\"\(description)\"")
                                 .jakarta(size: 14)
                                 .fontWeight(.light)
                                 .foregroundColor(.darkblue700)
+                                .padding(.top, 18)
+                                .padding([.bottom, .horizontal], 12)
+                                .background {
+                                    SpeechBubbleLeft()
+                                        .foregroundStyle(.green200)
+                                }
+                                .padding(.vertical, 10)
                         }
                     }
                     .padding(.vertical, 10)
@@ -66,7 +98,7 @@ struct ProfileView: View {
                             .frame(width: 260, height: 90)
                         HStack(spacing: 25) {
                             VStack(alignment: .center, spacing: 4)  {
-                                Text("\(person.eventOrganized ?? 0)")
+                                Text("\(viewModel.getEventsOrganized(person: person))")
                                     .serif(size: 24)
                                     .foregroundStyle(.darkblue700)
                                 Text("Évènements\norganisés")
@@ -81,7 +113,7 @@ struct ProfileView: View {
                                 .opacity(0.4)
                             
                             VStack(alignment: .center, spacing: 4)  {
-                                Text("\(person.eventParticipated ?? 0)")
+                                Text("\(viewModel.getEventsParticipated(person: person))")
                                     .serif(size: 24)
                                     .foregroundStyle(.darkblue700)
                                 Text("Évènements\nparticipés")
@@ -92,29 +124,6 @@ struct ProfileView: View {
                             }
                             .cornerRadius(10)
                         }
-                    }
-                    if (person.id != dataBase.currentUser.id) {
-                        NavigationLink {
-                            MessagesListView(dataBase: viewModel.dataBase, image: Image(person.profilePicture ?? ""), title: person.name, messages: viewModel.privateMessagesWithUser(user: person), isEvent: true)
-                             
-                        } label: {
-                            HStack {
-                                Image(systemName: "bubble.left.and.bubble.right")
-                                    .font(.system(size: 14))
-                                Text("Discuter")
-                                    .jakarta(size: 14)
-                                    .fontWeight(.medium)
-                            }
-                            .frame(width: 345, height: 40)
-                            .foregroundColor(Color.green650)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.green650, lineWidth: 1)
-                            )
-                        }
-                        .background(Color.clear)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .padding(.top, 16)
                     }
                     HStack {
                         Text("Derniers évènements")
@@ -128,7 +137,7 @@ struct ProfileView: View {
                         HStack(spacing: 14) {
                             ForEach(viewModel.getEventsForUser(user: person)) { $event in
                                 NavigationLink {
-                                    EventPageView(dataBase: dataBase, event: $event)
+                                    EventPageView(dataBase: $viewModel.dataBase, event: $event)
                                 } label: {
                                     EventCardView(event: event)
                                 }

@@ -14,7 +14,7 @@ struct GuestRowView: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            Image(participant.person.profilePicture ?? "defaultProfilePicture")
+            (participant.person.profilePicture ?? Image(""))
                 .resizable()
                 .scaledToFill()
                 .frame(width: 40, height: 40)

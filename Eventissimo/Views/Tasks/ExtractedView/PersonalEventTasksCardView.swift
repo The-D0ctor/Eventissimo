@@ -11,12 +11,11 @@ struct PersonalEventTasksCardView: View {
     @Binding var dataBase: DataBase
     @Binding var event: EventApp
     @Binding var tasksList: [TaskApp]
-    @State var currentIndex : Int = 2
 
     var body: some View {
         VStack{
             NavigationLink {
-                EventListTaskView(dataBase:$dataBase, currentIndex: $currentIndex)
+                EventListTaskView(dataBase:$dataBase, event: $event)
             } label: {
                 HStack{
                     event.image?
@@ -32,13 +31,8 @@ struct PersonalEventTasksCardView: View {
                         .padding(.leading,10)
                     Spacer()
                     Image(systemName: "chevron.right")
-                        .foregroundStyle(.green500)
+                        .foregroundStyle(.green700)
                 }
-                .simultaneousGesture(TapGesture().onEnded {
-                    if let eventIndex = dataBase.events.firstIndex(where: { $0.id == event.id }) {
-                                    currentIndex = eventIndex
-                                }
-                            })
             }
             PersonalTasksListView(tasksList: $tasksList)
         }

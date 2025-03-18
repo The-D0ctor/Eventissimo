@@ -54,4 +54,20 @@ class ProfileViewModel {
             }
         }
     }
+    
+    func getEventsParticipated(person: Person) -> Int {
+        return dataBase.events.filter { event in
+            event.participants.contains { user in
+                user.person.id == person.id
+            }
+        }.count
+    }
+    
+    func getEventsOrganized(person: Person) -> Int {
+        return dataBase.events.filter { event in
+            event.participants.contains { user in
+                user.person.id == person.id && user.role == .organizer
+            }
+        }.count
+    }
 }

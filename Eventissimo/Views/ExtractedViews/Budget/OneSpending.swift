@@ -12,7 +12,7 @@ struct OneSpending: View {
     var spend:Spending
     var body: some View {
         HStack{
-            Image(spend.person.profilePicture ?? "marionProfilPicture")
+            (spend.person.profilePicture ?? Image(""))
                 .resizable()
                 .scaledToFill()
                 .frame(width: 52, height: 52)

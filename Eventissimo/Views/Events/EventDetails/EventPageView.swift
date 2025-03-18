@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct EventPageView: View {
-    var dataBase: DataBase
+    @Binding var dataBase: DataBase
     
     @Binding var event: EventApp
     
     @State private var isAccepted = false
-    
+        
     @State var listOptions: PickerChoiceViewModel = PickerChoiceViewModel(listChoices: ["Participent", "Ne participent pas"], selectedButtonBackgroundColor: Color.green650, textColor: Color.white)
     
     var body: some View {
@@ -44,7 +44,7 @@ struct EventPageView: View {
                     
                     VStack {
                         PickerChoices(choices: listOptions)
-                        NavigationLink(destination: GuestsListView(dataBase: dataBase, event: event)) {
+                        NavigationLink(destination: GuestsListView(dataBase: dataBase, selectedChoice: listOptions.selectedChoice, viewModel: GuestSelectionViewModel(event: event))) {
                             if listOptions.selectedChoice == 0 {
                                 ParticipantsView(participants: event.participants, isBlackAndWhite: false)
                             } else {
@@ -55,31 +55,37 @@ struct EventPageView: View {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(Color.white)
                         VStack(alignment: .leading) {
-                            Text("Tâches accomplies")
-                                .serif(size: 18)
-                                .foregroundStyle(Color.darkblue700)
-                            ZStack(alignment: .leading) {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.darkblue200.opacity(0.3))
-                                    .frame(height: 20)
-                                    .opacity(0.8)
-                                ZStack(alignment: .trailing) {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill( LinearGradient(
-                                            gradient: Gradient(colors: [Color.green200, Color.green500]),
-                                            startPoint: .leading,
-                                            endPoint: .trailing))
-                                        .frame(width: CGFloat(event.tasksPercentage) / 100 * 340, height: 20)
-                                        .shadow(color: Color.green200.opacity(0.8), radius: 2, x: 0, y: 2)
-                                        .animation(.easeInOut(duration: 0.3), value: event.tasksPercentage)
-                                    Text("\(event.tasksPercentage)%")
-                                        .jakarta(size: 14)
-                                        .foregroundStyle(Color.white)
-                                        .fontWeight(.heavy)
-                                        .padding(.trailing, 10)
+                            NavigationLink {
+                                EventListTaskView(dataBase: $dataBase, event: $event)
+                            } label: {
+                                VStack(alignment: .leading) {
+                                    Text("Tâches accomplies")
+                                        .serif(size: 18)
+                                        .foregroundStyle(Color.darkblue700)
+                                    ZStack(alignment: .leading) {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.darkblue200.opacity(0.3))
+                                            .frame(height: 20)
+                                            .opacity(0.8)
+                                        ZStack(alignment: .trailing) {
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .fill( LinearGradient(
+                                                    gradient: Gradient(colors: [Color.green200, Color.green500]),
+                                                    startPoint: .leading,
+                                                    endPoint: .trailing))
+                                                .frame(width: CGFloat(event.tasksPercentage) / 100 * 340, height: 20)
+                                                .shadow(color: Color.green200.opacity(0.8), radius: 2, x: 0, y: 2)
+                                                .animation(.easeInOut(duration: 0.3), value: event.tasksPercentage)
+                                            Text("\(event.tasksPercentage)%")
+                                                .jakarta(size: 14)
+                                                .foregroundStyle(Color.white)
+                                                .fontWeight(.heavy)
+                                                .padding(.trailing, 10)
+                                        }
+                                    }
+                                    .frame(maxWidth: .infinity)
                                 }
                             }
-                            .frame(maxWidth: .infinity)
                             NavigationLink(destination: {
                                 BudgetView(dataBase: dataBase, viewModel: BudgetViewModel(evenement: event))
                             }, label: {
@@ -88,9 +94,16 @@ struct EventPageView: View {
                                         .serif(size: 18)
                                         .foregroundStyle(Color.darkblue700)
                                         .padding(.top, 8)
-                                    Text("Mettre les derniers achats") // 🙋‍♀️ Lucie : à revoir il faut coder cette partie
-                                        .jakarta(size: 12)
-                                        .foregroundStyle(Color.darkblue200)
+                                    if let spend = event.budget.spendings.first{
+                                        SpendInEvent(spend: spend)
+                                    }
+                                    
+                                    if event.budget.spendings.count > 1 {
+                                        let spendTwo = event.budget.spendings[1]
+                                        Divider()
+                                        SpendInEvent(spend: spendTwo)
+                                    }
+                                    
                                 }
                             })
                         }
@@ -126,7 +139,7 @@ struct EventPageView: View {
     }
 }
 #Preview {
-    EventPageView(dataBase: DataBase(), event: Binding.constant(events[1]))
+    EventPageView(dataBase: Binding.constant(DataBase()), event: Binding.constant(events[1]))
         .environment(DataBase())
 }
 

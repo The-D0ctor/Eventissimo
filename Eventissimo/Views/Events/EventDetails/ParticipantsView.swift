@@ -20,7 +20,7 @@ struct ParticipantsView: View {
 //                    .opacity(0.8)
                 HStack(spacing: -6) {
                     ForEach(participants, id: \.person.email) { participant in
-                        Image(participant.person.profilePicture ??  "defaultProfilePicture")
+                        (participant.person.profilePicture ??  Image(""))
                             .resizable()
                             .scaledToFill()
                             .frame(width: 40, height: 40)

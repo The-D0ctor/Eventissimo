@@ -14,23 +14,23 @@ struct PersonalTasksListView: View {
         
         ForEach($tasksList) { $taskApp in
             HStack {
-                // faire en sorte que mon bouton retienne son Bool
-                // mettre en place un SwiftData pour sauvegarder les tâches réalisées
                 Button {
-                    taskApp.isCompleted.toggle()
-                    
+                    withAnimation(.easeIn(duration: 0.25)) {
+                            taskApp.isCompleted.toggle()
+                        }
                 } label: {
                     ZStack {
                         Rectangle()
-                            .fill(taskApp.isCompleted ? .green700.mix(with: .black, by: 0.1):.green500.mix(with: .gray, by: 0.25))
+                            .fill(taskApp.isCompleted ? .greenGray:.green500.mix(with: .gray, by: 0.25))
                             .frame(width: 30, height: 30)
                             .cornerRadius(6)
                         Rectangle()
-                            .fill(taskApp.isCompleted ? .green700.mix(with: .blue, by: 0.1) : .white)                                    .frame(width: 28,height: 28)
+                            .fill(taskApp.isCompleted ? .green700.mix(with: .black, by: 0.1) : .white)                                    .frame(width: 28,height: 28)
                             .cornerRadius(5)
                         if taskApp.isCompleted{
                             Image(systemName: "checkmark")
                                 .foregroundStyle(.white)
+                                .transition(.scale)
                             
                         }
                     }
@@ -53,11 +53,12 @@ struct PersonalTasksListView: View {
                 Spacer()
                 
                 if taskApp.isUrgent{
-                    isUrgentExtracted()
+                    isUrgentExtracted(urgentColor: .red.mix(with: .gray, by: 0.25))
+                    
                 }
             }
             .padding(12)
-            .background(taskApp.isCompleted ? .green500: .green200.mix(with: .white, by: 0.25))
+            .background(taskApp.isCompleted ? .green700 : .darkblue50)
             .cornerRadius(11)
             .overlay(
                 RoundedRectangle(cornerRadius: 11)

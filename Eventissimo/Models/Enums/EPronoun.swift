@@ -6,7 +6,7 @@
 //
 
 
-enum EPronoun: String {
+enum EPronoun: String, Codable {
     case heHim = "he/him"
     case sheHer = "she/her"
     case theyThem = "they/them"

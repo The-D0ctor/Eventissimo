@@ -2,15 +2,15 @@ import SwiftUI
 
 struct GuestsListView: View {
     var dataBase: DataBase
-    var event: EventApp
-    
+    var selectedChoice: Int = 0
+    @State var viewModel: GuestSelectionViewModel
     
     
     @Environment(\.dismiss) var dismiss // var pour cacher la navbar
     
     @State var listOptions: PickerChoiceViewModel = PickerChoiceViewModel(listChoices: ["Participent", "Ne participent pas"])
     @State private var showOptions = false
-    @State private var showGuestSelectionSheet = true
+    @State private var showGuestSelectionSheet = false
     
     @State private var invitationLink: String = "http://example.com/invitation-link"
     @State private var showInvitationLink = false
@@ -47,7 +47,7 @@ struct GuestsListView: View {
                             .fill(Color.white)
                         VStack {
                             if listOptions.selectedChoice == 0 {
-                                ForEach(event.participants, id: \.person.id) { participant in
+                                ForEach(viewModel.event.participants, id: \.person.id) { participant in
                                     NavigationLink(destination: ProfileView(dataBase: dataBase, person: participant.person).navigationBarBackButtonHidden()) {
                                         GuestRowView(participant: participant)
                                     }
@@ -70,8 +70,10 @@ struct GuestsListView: View {
                                     Divider()
                                 }
                             } else {
-                                ForEach(event.nonParticipants, id: \.person.id) { participant in
-                                    GuestRowView(participant: participant)
+                                ForEach(viewModel.event.nonParticipants, id: \.person.id) { participant in
+                                    NavigationLink(destination: ProfileView(dataBase: dataBase, person: participant.person).navigationBarBackButtonHidden()) {
+                                        GuestRowView(participant: participant)
+                                    }
                                     Divider()
                                 }
                             }
@@ -167,7 +169,7 @@ struct GuestsListView: View {
         .background(Color.darkblue50)
         .navigationBarBackButtonHidden(true) // ici pour cacher la navBar
         .sheet(isPresented: $showGuestSelectionSheet) {
-            GuestSelectionSheet() // ici ça affiche la liste des users
+            GuestSelectionSheet(viewModel: $viewModel) // ici ça affiche la liste des users
         }
         .gesture(TapGesture().onEnded {
             withAnimation {
@@ -175,83 +177,12 @@ struct GuestsListView: View {
                 showOptions = false
             }
         })
-    }
-}
-
-struct GuestSelectionSheet: View {
-    @State var guests: [Person] = []
-    @Environment(\.dismiss) var dismiss
-    
-    var body: some View {
-        NavigationView {
-            VStack {
-                HStack {
-                    Text("Fermer")
-                        .opacity(0)
-                    Spacer()
-                    Text("Qui inviter ?")
-                        .serif(size: 18)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.darkblue700)
-                    Spacer()
-                    Button {
-                        dismiss()
-                    } label: {
-                        Text("Fermer")
-                            .jakarta(size: 12)
-                    }
-                }
-                .padding(.horizontal, 24)
-                .padding(.top)
-                List(users) { user in
-                    
-                    HStack {
-                        Image(user.profilePicture ?? "Pas de photo")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                            .padding(.horizontal)
-                        Text(user.name)
-                            .jakarta(size: 14)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.darkblue700)
-                        
-                        Spacer()
-                        Button {
-                            if guests.contains(user){
-                                guests.removeAll { guest in
-                                    guest.id == user.id
-                                }
-                            }
-                            else{
-                                guests.append(user)
-                            }
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 6)
-                                    .stroke(Color.black, lineWidth: 1)
-                                    .fill( guests.contains(user) ? Color.green650 : Color.white)
-                                    .frame(width: 24, height: 24)
-                                
-                                if guests.contains(user){
-                                    Image(systemName: "checkmark")
-                                        .foregroundStyle(.white)
-                                }
-                                
-                                
-                                
-                            }
-                        }
-                    }
-                    .contentShape(Rectangle())
-                }
-                .listStyle(.insetGrouped)
-            }
+        .onAppear {
+            listOptions.selectedChoice = selectedChoice
         }
     }
 }
 
 #Preview {
-    GuestsListView(dataBase: DataBase(), event: events[1])
+    GuestsListView(dataBase: DataBase(), selectedChoice: 0, viewModel: GuestSelectionViewModel(event: events[1]))
 }

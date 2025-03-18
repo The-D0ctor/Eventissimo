@@ -24,7 +24,7 @@ struct EventsListView: View {
     }
     
     var body: some View {
-        @Bindable var dataBase = self.dataBase
+        @Bindable var viewModel: EventListViewModel = EventListViewModel(dataBase: dataBase)
         
         NavigationStack {
             ZStack {
@@ -36,9 +36,9 @@ struct EventsListView: View {
                         
                         ScrollView(.horizontal) {
                             HStack {
-                                ForEach($dataBase.events) { $event in
+                                ForEach($viewModel.dataBase.events) { $event in
                                     NavigationLink {
-                                        EventPageView(dataBase: dataBase, event: $event)
+                                        EventPageView(dataBase: $viewModel.dataBase, event: $event)
                                     } label: {
                                         EventsListItemView(event: event)
                                         .scrollTransition() { content, phase in
@@ -61,17 +61,19 @@ struct EventsListView: View {
                     }
                     .frame(height: 472.5)
                     VStack {
+                        Text("Créer un\névènement")
+                            .jakarta(size: 14)
+                            .foregroundStyle(.green900)
+                            .multilineTextAlignment(.center)
                         NavigationLink {
                             CreateEventView(dataBase: dataBase)
                         } label: {
                             LabelButtonPlusView()
                         }
                         .frame(width: 60, height: 60)
-                        Text("Créer un évènement")
-                            .jakarta(size: 16)
-                            .foregroundStyle(.darkblue700)
                     }
                     .padding(.bottom, 50)
+                    .padding(.top, 24)
                 }
             }
             .navigationTitle("Évènements")

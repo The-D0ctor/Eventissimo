@@ -36,6 +36,7 @@ struct MessagesListView: View {
                 HStack {
                     TextField(text: $typedText) {
                         Text("Nouveau message")
+                            .jakarta(size: 14)
                     }
                     .textFieldStyle(.roundedBorder)
                     Button {
@@ -44,6 +45,7 @@ struct MessagesListView: View {
                     } label: {
                         HStack {
                             Text("Envoyer")
+                                .jakarta(size: 14)
                             Image(systemName: "paperplane")
                         }.padding(6)
                             .background(.green650)

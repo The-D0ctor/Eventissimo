@@ -21,7 +21,7 @@ struct MessageLeftDetail: View {
             VStack(alignment: .leading, spacing: 0) {
                 if (isEvent) {
                     HStack {
-                        Image(message.person.profilePicture ?? "")
+                        (message.person.profilePicture ?? Image(""))
                             .resizable()
                             .scaledToFill()
                             .frame(width: 14, height: 14)

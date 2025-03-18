@@ -31,7 +31,7 @@ class Budget: Identifiable {
     }
     
     func addSpending(_ spending: Spending) {
-        self.spendings.append(spending)
+        self.spendings.insert(spending, at: 0)
         self.totalSpend += spending.amount
         self.totalRemaining -= spending.amount
     }
