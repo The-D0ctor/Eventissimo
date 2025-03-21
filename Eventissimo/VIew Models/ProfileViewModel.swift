@@ -33,8 +33,24 @@ class ProfileViewModel {
         }
     }
     
+    func privateConversationIdWithUser(user: Person) -> String {
+        if let privateConversationWithUser = self.dataBase.currentUserPrivateConversations.first(where: { privateConversation in
+            privateConversation.person1.id == user.id || privateConversation.person2.id == user.id
+        }) {
+            return privateConversationWithUser.id
+        }
+        else {
+            let id = UUID().uuidString
+            let newPrivateConversation = PrivateConversation(id: id, person1: self.dataBase.currentUser, person2: user)
+            dataBase.privateConversations.append(newPrivateConversation)
+            Task {
+                await FirestoreService.shared.writePrivateConversation(privateConversation: newPrivateConversation)
+            }
+            return id
+        }
+    }
+    
     func privateMessagesWithUser(user: Person) -> Binding<[MessageApp]> {
-        print("test")
         return Binding {
             if let privateConversationWithUser = self.dataBase.currentUserPrivateConversations.first(where: { privateConversation in
                 privateConversation.person1.id == user.id || privateConversation.person2.id == user.id

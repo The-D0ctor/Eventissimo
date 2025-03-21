@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct GuestSelectionSheet: View {
-    @Binding var viewModel: GuestSelectionViewModel
+    @State var guests: [Person] = []
+    @Binding var event: EventApp
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -30,7 +31,10 @@ struct GuestSelectionSheet: View {
                         .foregroundStyle(.darkblue700)
                     Spacer()
                     Button {
-                        viewModel.addGuest(persons: viewModel.guests, event: viewModel.event)
+                        for participant in guests{
+                            
+                            event.participants.append(Participant(person: participant, role: .guest))
+                        }
                         dismiss()
                     } label: {
                         Text("Valider")
@@ -43,7 +47,7 @@ struct GuestSelectionSheet: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.top)
-                List(viewModel.event.listUsers) { user in
+                List(event.listUsers) { user in
                     
                     HStack {
                         
@@ -60,22 +64,22 @@ struct GuestSelectionSheet: View {
                         
                         Spacer()
                         Button {
-                            if viewModel.guests.contains(user.person){
-                                viewModel.guests.removeAll { guest in
+                            if guests.contains(user.person){
+                                guests.removeAll { guest in
                                     guest.id == user.person.id
                                 }
                             }
                             else{
-                                viewModel.guests.append(user.person)
+                                guests.append(user.person)
                             }
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 6)
                                     .stroke(Color.black, lineWidth: 1)
-                                    .fill( viewModel.guests.contains(user.person) ? Color.green650 : Color.white)
+                                    .fill( guests.contains(user.person) ? Color.green650 : Color.white)
                                     .frame(width: 24, height: 24)
                                 
-                                if viewModel.guests.contains(user.person){
+                                if guests.contains(user.person){
                                     Image(systemName: "checkmark")
                                         .foregroundStyle(.white)
                                 }
@@ -94,5 +98,5 @@ struct GuestSelectionSheet: View {
 }
 
 #Preview {
-    GuestSelectionSheet(viewModel: Binding.constant(GuestSelectionViewModel(event: events[0])))
+    GuestSelectionSheet(event: .constant(events[0]))
 }

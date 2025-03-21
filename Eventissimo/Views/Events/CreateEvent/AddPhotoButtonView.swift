@@ -46,7 +46,8 @@ struct AddPhotoButtonView: View {
                     }
                     
                 }
-                .padding()
+                .padding(.leading)
+                .padding(.trailing)
                 
             }
             

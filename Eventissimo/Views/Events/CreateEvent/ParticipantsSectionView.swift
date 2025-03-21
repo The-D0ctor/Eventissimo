@@ -9,26 +9,25 @@
 import SwiftUI
 
 struct ParticipantsSectionView: View {
-    
-    @State var viewModel: GuestSelectionViewModel
+    @State var pickerChoice = ERole.guest
     @Binding var event: EventApp
-    @State var pickerChoice = ERole.organizer
-    @State var newParticipant = Participant(person: Person(name: "", email: "", pronouns: .other), role: .volunteer)
     
     @State var searchPerson = ""
     var body: some View {
+        
+        
         VStack(alignment : .leading, spacing: 12) {
             
-            VStack{
+            VStack (alignment: .leading){
                 Divider()
                 ZStack{
-                    VStack{
+                    VStack (alignment: .leading){
                         Text("Invitation")
                             .serif(size: 20)
                             .foregroundStyle(.darkblue700)
                         
-                        if !event.participants.isEmpty {
-                            ForEach($event.participants, id: \.person.id) { $participant in
+                        if !$event.participants.isEmpty {
+                            ForEach(event.participants, id: \.person.id) { participant in
                                 HStack{
                                     
                                     Text(participant.person.name)
@@ -45,27 +44,30 @@ struct ParticipantsSectionView: View {
                                                 .jakarta(size: 12)
                                                 .foregroundStyle(.darkblue50)
                                         }
-                                        .padding(4)
+                                        .padding(6)
                                         .background(.green900)
                                         .cornerRadius(4)
+                                        .padding(4)
                                     case .guest:
                                         HStack {
                                             Text("Invité(e)")
                                                 .jakarta(size: 12)
                                                 .foregroundStyle(.darkblue700)
                                         }
-                                        .padding(4)
+                                        .padding(6)
                                         .background(.white)
                                         .cornerRadius(4)
+                                        .padding(4)
                                     case .volunteer:
                                         HStack {
                                             Text("Bénévole")
                                                 .jakarta(size: 12)
                                                 .foregroundStyle(.darkblue700)
                                         }
-                                        .padding(4)
+                                        .padding(6)
                                         .background(.white)
                                         .cornerRadius(4)
+                                        .padding(4)
                                     case .none:
                                         EmptyView()
                                     }
@@ -83,42 +85,11 @@ struct ParticipantsSectionView: View {
                             }
                         }
                     }
-                    if !searchPerson.isEmpty {
-                        
                     
-                    VStack{
-                        
-                            
-                        ForEach(viewModel.event.listUsers.filter { users in
-                            users.person.name.lowercased().contains(searchPerson.lowercased())
-                        })
-                        { newInvite in
-                                HStack{
-                                    (newInvite.person.profilePicture ?? Image(""))
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 40, height: 40)
-                                    .clipShape(.circle)
-                                Spacer()
-                                    Text(newInvite.person.name)
-                                    .jakarta(size: 14)
-                                
-                            }
-                        }
-                    }
-                    .padding()
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .frame(width: 300)
-                    }
                     
-            }
+                }
                 
-                ZStack{
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.darkblue200)
-                        .frame(height: 120)
-                        .opacity(0.4)
+                
                     VStack(spacing: 8) {
                         HStack {
                             TextField("Inviter des amis", text: $searchPerson)
@@ -141,40 +112,72 @@ struct ParticipantsSectionView: View {
                             .tint(.darkblue400)
                         }
                         
-                        Button {
-                            if !newParticipant.person.name.isEmpty {
-                                newParticipant.role = pickerChoice
-                                event.participants.append(newParticipant)
-                                // Réinitialise le champ TextField après l'ajout :
-                                newParticipant = Participant(person: Person(name: "", email: "", pronouns: .other), role: .volunteer)
-                            }
+                        
+                        
+                        if !searchPerson.isEmpty && event.listUsers.filter({ users in
+                            users.person.name.lowercased().contains(searchPerson.lowercased())
+                        }).isEmpty == false {
                             
-                        } label: {
-                            ZStack{
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.green700)
-                                    .frame(height: 48)
-                                
-                                Text("Envoyer l'invitation")
-                                    .jakarta(size: 16)
-                                    .foregroundColor(.darkblue50)
+                            
+                            VStack{
                                 
                                 
+                                ForEach(event.listUsers.filter { users in
+                                    users.person.name.lowercased().contains(searchPerson.lowercased())
+                                })
+                                { newInvite in
+                                    
+                                    Button(action:{
+                                        var newParticipant = newInvite
+                                        newParticipant.role = pickerChoice
+                                        event.participants.append(newParticipant)
+                                        searchPerson = ""
+                                        
+                                        
+                                    }, label: {
+                                        VStack{
+                                            HStack{
+                                                (newInvite.person.profilePicture ?? Image(""))
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 40, height: 40)
+                                                    .clipShape(.circle)
+                                                
+                                                Text(newInvite.person.name)
+                                                    .jakarta(size: 14)
+                                                    .foregroundStyle(.darkblue700)
+                                                Spacer()
+                                            }
+                                            Divider()
+                                        }
+                                        
+                                    }
+                                    )
+                                    
+                                }
                             }
+                            .padding()
+                            .background(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            
                         }
-                        
-                        
-                        
                         
                     }
                     .padding(8)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.darkblue200, lineWidth: 1)
+                            .opacity(0.4)
+                    )
                     
-                }
+                
+                
+                
             }
             
             Text("Lien d'invitation")
                 .jakarta(size: 16)
-                .foregroundStyle(.darkblue700)
+                .foregroundStyle(.darkblue700).padding(.bottom, -6)
             ZStack{
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color.white)
@@ -190,10 +193,11 @@ struct ParticipantsSectionView: View {
                     Image("copier")}}
         }
         .padding()
+        
     }
 }
 
 #Preview {
-    ParticipantsSectionView(viewModel: GuestSelectionViewModel(event: events[0]),event: .constant(events[0]))
+    ParticipantsSectionView(event: .constant(events[0]))
         .background(.darkblue50)
 }

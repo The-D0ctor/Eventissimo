@@ -12,7 +12,7 @@ struct CreateEventView: View {
     
     var dataBase: DataBase
     
-    @State var event = EventApp(name: "", description: "", date: Date.now, localization: "", participants: [], nonParticipants: [], image: nil, tasks: [], budget: Budget(totalBudget: 0, spendings: []), eventMessages: [])
+    @State var event = EventApp(name: "", description: "", date: Date.now, localization: "", participants: [Participant(person: marion, role: .organizer)], nonParticipants: [], image: nil, tasks: [], budget: Budget(totalBudget: 0, spendings: []), eventMessages: [])
     
     var body: some View {
         
@@ -22,13 +22,8 @@ struct CreateEventView: View {
                 
                 VStack {
                     
-                    Text("Créer un évènement")
-                        .serif(size: 24)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.darkblue700)
-                    
                     ScrollView {
-                        VStack(alignment : .center, spacing: 12) {
+                        VStack(alignment : .center) {
                             AddPhotoButtonView(event: $event)
                             
                             //MARK: - Information générales
@@ -38,14 +33,14 @@ struct CreateEventView: View {
                             TaskSectionView(event: $event)
                             
                             //MARK: - Invitation
-                            ParticipantsSectionView(viewModel: GuestSelectionViewModel(event: event),event: $event)
+                            ParticipantsSectionView(event: $event)
                             
                             // MARK: - Save button
                             
                             // TODO: rendre fonctionnel le bouton
                             Button {
-                                event.participants.append(Participant(person: dataBase.currentUser, role: .organizer))
-                                dataBase.events.append(event)
+//                                event.participants.append(Participant(person: dataBase.currentUser, role: .organizer))
+                                dataBase.events.insert(event, at: 0)
                                 dismiss()
                             } label: {
                                 ZStack {
@@ -53,10 +48,11 @@ struct CreateEventView: View {
                                         .fill(Color.green700)
                                         .frame(height: 48)
                                     Text("Créer l'évènement")
-                                        .jakarta(size: 20)
+                                        .jakarta(size: 16)
+                                        .fontWeight(.medium)
                                         .foregroundColor(.darkblue50)
                                 }
-                                .padding(.top, 20)
+                                .padding()
                             }.disabled(event.name.isEmpty || event.description.isEmpty || event.localization.isEmpty || event.image == nil)
                         }
                     }
@@ -64,6 +60,25 @@ struct CreateEventView: View {
                 }.padding()
             }
             
+        }
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "arrow.left")
+                    }
+                    Text("Créer un évènement")
+                        .serif(size: 20)
+                        .fontWeight(.medium)
+                        .padding(.leading, 20)
+                    
+                }
+                .foregroundColor(.darkblue900)
+            }
+           
         }
     }
 }

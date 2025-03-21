@@ -11,6 +11,8 @@ struct EventListTaskView: View {
     @State var showCreateNewTask: Bool = false
     @Binding var dataBase: DataBase
     @Binding var event: EventApp
+    @Environment(\.dismiss) var dismiss
+    
     
     var body: some View {
         ZStack {
@@ -18,60 +20,59 @@ struct EventListTaskView: View {
                 .ignoresSafeArea()
             VStack{
                 Text(event.name)
-                    .serif(size: 24)
+                    .serif(size: 20)
                     .foregroundStyle(.darkblue900)
+                
+                
+                
                 ScrollView {
                     
                     EventListTaskExtracted(tasksList:$event.tasks)
                     
-                    // 1. nouveau bouton pour afficher la modale -> toggle
                     
                     Button {
                         showCreateNewTask.toggle()
                     } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.green700)
-                                .frame(width:300 ,height: 32)
-                            Text("Ajouter une nouvelle Tâche")
+                        VStack{
+                            
+                            Text("Ajouter \n une nouvelle tâche")
                                 .jakarta(size: 16)
-                                .foregroundColor(.darkblue50)
+                                .foregroundStyle(.darkblue400)
+                                .padding(.top,24)
+                            Image("plus")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .padding(10)
+                                .background(.green650)
+                                .clipShape(Circle())
+                                .foregroundStyle(.white)
+                                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
                         }
-                        .padding(.top,24)
-                        
                     }
                     
                     // 2. modale avec des textField pour ajouter de la data dans mon tableau de données
                     .sheet(isPresented: $showCreateNewTask) {
-                        
                         CreateNewTaskExtracted(dataBase: $dataBase, event: $event)
-                            .presentationDetents([.height(350)])
-
                     }
-
-                    }
-                    
-                    // 3. ⬇️ on trouvera le bouton dans la modale sous forme de bouton "valider" pour confirmer les données via ma fonction addNewTask
-                    
-//                    Button {
-//                        // permet d'ajouter une tâche
-//                        addNewTask(newTask: TaskApp(title: "hello", personsAssigned: [dataBase.currentUser]))
-//                    } label: {
-//                        // prendre le bouton d'Alex sur la partie créer un event ou celui de Lucie sur le profil je crois
-//
-//                        // OU permetre d'ajouter une tâche en touchant en dessous de la dernière tâche affichée
-//                        Rectangle()
-//                            .fill(.green700)
-//                    }
-                    
-                    
-                    
                 }
-                .padding([.leading,.trailing],12)
-                .padding(.top,42)
+            }
+            .padding([.leading,.trailing],12)
+            .padding(.top,42)
+        }
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "arrow.left")
+                    }
+                }
             }
         }
     }
+}
 
 
 #Preview {

@@ -20,5 +20,12 @@
 		<string>DMSerifDisplay-Regular.ttf</string>
 		<string>DMSerifDisplay-Italic.ttf</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>green-400</string>
+		<key>UIImageName</key>
+		<string>EventissimoLaunchScreen</string>
+	</dict>
 </dict>
 </plist>

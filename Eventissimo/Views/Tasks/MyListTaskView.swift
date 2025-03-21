@@ -22,7 +22,6 @@ struct MyListTaskView: View {
                     Text("Liste de mes Tâches")
                         .serif(size: 24)
                         .foregroundStyle(.darkblue900)
-                    // .padding(.top)
                     
                     ScrollView {
                         ForEach($viewModel.dataBase.myEvents) { $event in

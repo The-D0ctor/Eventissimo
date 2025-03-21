@@ -104,7 +104,7 @@ struct MyProfileView: View {
                         }
                         .padding(.horizontal, 24)
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 14) {
+                            HStack(spacing: 0) {
                                 ForEach(viewModel.getEventsForUser()) { $event in
                                     NavigationLink {
                                         EventPageView(dataBase: $viewModel.dataBase, event: $event)

@@ -51,19 +51,24 @@ struct InformationsSectionView: View {
                 Text("Description")
                     .jakarta(size: 16)
                     .foregroundStyle(.darkblue700)
-                ZStack {
+                ZStack (alignment: .topLeading){
                     TextEditor(text: $event.description)
-                        .padding()
+                        .padding(8)
                         .frame(height: 137)
                         .background(Color.white)
                         .foregroundStyle(.darkblue700)
                         .cornerRadius(12)
                         .multilineTextAlignment(.leading)
+                    
                     if event.description.isEmpty {
-                        Text("Écrivez votre description ici")
-                            .foregroundColor(.darkblue200)
-                        
+                        Text("Écrire votre description ici")
+                            .foregroundStyle(.gray).opacity(0.4)
+                            .padding(14)
                     }
+                        
+                            
+                        
+                    
                 }
             }
             
@@ -78,14 +83,16 @@ struct InformationsSectionView: View {
             }
             .foregroundStyle(.darkblue700)
             
-            VStack (alignment: .leading, spacing: 4){
+            VStack (alignment: .leading){
                 HStack (spacing: 16){
                     VStack (alignment: .leading){
                         Text("Date")
                             .jakarta(size: 16)
-                            .foregroundStyle(.darkblue700)
+                            .foregroundStyle(.darkblue700).padding(.bottom, -6)
                         ZStack{
-                            RoundedRectangle(cornerRadius: 12).frame(height: 48).foregroundStyle(.white)
+                            RoundedRectangle(cornerRadius: 12)
+                                .frame(height: 48)
+                                .foregroundStyle(.white)
                             HStack{
                                 Text(dateFormatter.string(from: event.date))
                                 Spacer()
@@ -104,7 +111,7 @@ struct InformationsSectionView: View {
                     VStack (alignment: .leading){
                         Text("Heure")
                             .jakarta(size: 16)
-                            .foregroundStyle(.darkblue700)
+                            .foregroundStyle(.darkblue700).padding(.bottom, -6)
                         ZStack{
                             RoundedRectangle(cornerRadius: 12).frame(height: 48).foregroundStyle(.white)
                             HStack{
@@ -136,7 +143,7 @@ struct InformationsSectionView: View {
                     
                     
                         .padding()
-                        .frame( height: 48)
+                        .frame(height: 48)
                         .background(Color.white)
                         .cornerRadius(12)
                     Text("€")

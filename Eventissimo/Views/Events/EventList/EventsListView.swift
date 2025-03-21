@@ -42,7 +42,7 @@ struct EventsListView: View {
                                     } label: {
                                         EventsListItemView(event: event)
                                         .scrollTransition() { content, phase in
-                                            content.rotationEffect(.radians(phase.value / 8), anchor: .bottom)
+                                            content.rotationEffect(.radians(phase.value / 10), anchor: .bottom)
                                         }
                                         .visualEffect { view, proxy in
                                             view.offset(y: offset(proxy))
@@ -78,26 +78,7 @@ struct EventsListView: View {
             }
             .navigationTitle("Évènements")
             .navigationBarTitleDisplayMode(.inline)
-            /*.toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        SimpleCalendarView(events: $calendarEvents, selectedDate: $selectedDate, selectionAction: .destination({ calendar in
-                            EventPageView(event: events.first(where: { event in
-                                event.id == UUID(uuidString: calendar.id)
-                            })!)
-                        })).background(Color.darkblue50)
-                        }
-                    label: {
-                        Image("calendar")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .padding(12)
-                            .background(Color.green200)
-                            .clipShape(Circle())
-                    }
-                    .padding(.trailing)
-                }
-            }*/
+            
         }
     }
     
@@ -105,7 +86,7 @@ struct EventsListView: View {
     func offset(_ proxy: GeometryProxy) -> CGFloat {
         let progress = progress(proxy)
         
-        return progress < 0 ? progress * -30 : progress * 30
+        return progress < 0 ? progress * -20 : progress * 25
     }
     
     nonisolated

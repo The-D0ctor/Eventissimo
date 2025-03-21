@@ -18,10 +18,10 @@ struct AddSpendingView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Dépense")
                         .jakarta(size: 16)
-                        .fontWeight(.bold)
+                        
                     TextField("À quoi correspond cette dépense ?", text: $viewModel.addDescription)
                         .padding()
-                        .background(.darkblue200.opacity(0.2))
+                        .background(.white)
                         .frame(width: 354, height: 40)
                         .cornerRadius(8)
                 }
@@ -29,7 +29,7 @@ struct AddSpendingView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Montant")
                             .jakarta(size: 16)
-                            .fontWeight(.bold)
+                            
                         HStack(spacing: 4) {
                             
                             TextField("0", value: $viewModel.newAmount, format: .number)
@@ -37,7 +37,7 @@ struct AddSpendingView: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
                                 .frame(width: 100, height: 40)
-                                .background(.darkblue200.opacity(0.2))
+                                .background(.white)
                                 .cornerRadius(8)
                             
                             Text("€")
@@ -50,7 +50,7 @@ struct AddSpendingView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Catégorie")
                             .jakarta(size: 16)
-                            .fontWeight(.bold)
+                            
                         Picker("", selection: $viewModel.selectedCategory) {
                             ForEach(viewModel.listSpendingsByCategory.keys.sorted(), id: \.self) { key in
                                 Text(key.rawValue).tag(key)
@@ -59,8 +59,9 @@ struct AddSpendingView: View {
                         .pickerStyle(MenuPickerStyle())
                         .padding()
                         .frame(height: 40)
-                        .background(.darkblue200.opacity(0.2))
-                        .cornerRadius(8)                }
+                        .background(.white)
+                        .cornerRadius(8)
+                        .tint(.green650)}
                 }
                 
                 HStack {
@@ -87,7 +88,7 @@ struct AddSpendingView: View {
                 }
             }
             .padding(24)
-            .background(.white)
+            .background(.darkblue50)
             .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }

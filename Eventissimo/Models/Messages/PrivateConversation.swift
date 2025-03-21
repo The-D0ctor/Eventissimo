@@ -7,10 +7,20 @@
 
 import Foundation
 
-struct PrivateConversation: Identifiable {
-    let id: UUID = UUID()
+struct PrivateConversation: Identifiable, Codable, Equatable {
+    var id: String = UUID().uuidString
     
     var messages: [MessageApp] = []
-    var person1: Person
-    var person2: Person
+    var messagesRefs: [String] = []
+    var person1: Person = Person(name: "", email: "", pronouns: .heHim)
+    var person1Ref: String?
+    var person2: Person = Person(name: "", email: "", pronouns: .heHim)
+    var person2Ref: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case messagesRefs = "messages"
+        case person1Ref
+        case person2Ref
+    }
 }

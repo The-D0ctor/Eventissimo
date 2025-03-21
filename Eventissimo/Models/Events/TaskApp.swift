@@ -6,8 +6,9 @@
 //
 
 import Foundation
+// Equatable sert à faire en sorte que mes objets soit comparables les uns les autres
 
-struct TaskApp: Identifiable {
+struct TaskApp: Identifiable, Equatable {
     let id: UUID = UUID()
     
     var title: String

@@ -46,7 +46,7 @@ struct ProfileView: View {
                             
                             if (person.id != dataBase.currentUser.id) {
                                 NavigationLink {
-                                    MessagesListView(dataBase: dataBase, image: (person.profilePicture ?? Image("")), title: person.name, messages: viewModel.privateMessagesWithUser(user: person), isEvent: true)
+                                    MessagesListView(dataBase: dataBase, image: (person.profilePicture ?? Image("")), title: person.name, messages: viewModel.privateMessagesWithUser(user: person), isEvent: false, privateConversationId: viewModel.privateConversationIdWithUser(user: person))
                                 } label: {
                                     HStack {
                                         Image(systemName: "bubble.left.and.bubble.right")
@@ -135,7 +135,7 @@ struct ProfileView: View {
                 }
                 .padding(.horizontal, 24)
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 14) {
+                    HStack(spacing: 0) {
                         ForEach(viewModel.getEventsForUser(user: person)) { $event in
                             NavigationLink {
                                 EventPageView(dataBase: $viewModel.dataBase, event: $event)

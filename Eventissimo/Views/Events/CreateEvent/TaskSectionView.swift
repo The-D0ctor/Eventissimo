@@ -69,11 +69,12 @@ struct TaskSectionView: View {
                     } label:{
                         ZStack{
                             RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.green700)
+                                .stroke(Color.green650)
                                 .frame(height: 48)
                             Text("Ajouter une tâche")
                                 .jakarta(size: 16)
-                                .foregroundColor(.darkblue50)
+                                .fontWeight(.medium)
+                                .foregroundColor(.green650)
                         }
                     }
                 }
@@ -81,7 +82,8 @@ struct TaskSectionView: View {
             }
             
         }
-        .padding()
+        .padding(.leading)
+        .padding(.trailing)
     }
 }
 

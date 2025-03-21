@@ -10,8 +10,9 @@ import SwiftUI
 
 struct GuestRowView: View {
     
-    let participant: Participant
-    
+    @Binding var participant: Participant
+    @Binding var event: EventApp
+    var participe: Bool
     var body: some View {
         HStack(spacing: 12) {
             (participant.person.profilePicture ?? Image(""))
@@ -39,11 +40,49 @@ struct GuestRowView: View {
                 }
             }
             Spacer()
+            
+            
+            
+            if event.participants.contains(participant) && !(participant.role == .organizer) && participe{
+                Menu("Rôle") {
+                    
+                    
+                    Button (action:{
+                        participant.role = .volunteer
+                    }, label:{
+                        Text("Bénévole")
+                    })
+                    
+                    Button (action:{
+                        participant.role = .guest
+                    }, label:{
+                        Text("Invité")
+                    })
+                    
+                    Button (action:{
+                        participant.role = .organizer
+                    }, label:{
+                        Text("Organisateur")
+                    })
+                }
+                
+                Button(action:{
+                    
+                    event.participants.removeAll { guest in
+                        guest.id == participant.id
+                    }
+                       }, label:{
+                           
+                    Image(systemName: "minus.circle.fill")
+                        .foregroundStyle(.red)
+                        .tint(.red)
+                })
+            }
         }
         .padding(.vertical, 4)
     }
 }
 #Preview {
-    GuestRowView(participant: Participant(person: marion, role: .organizer))
+    GuestRowView(participant: Binding.constant(Participant(person: marion, role: .organizer)), event: .constant(events[0]), participe: true)
 }
 

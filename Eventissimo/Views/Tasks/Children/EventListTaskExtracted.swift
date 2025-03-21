@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct EventListTaskExtracted: View {
-    //@State var viewModel = TaskViewModel()
     @Binding var tasksList: [TaskApp]
+    
     
     var body: some View {
         
@@ -17,8 +17,7 @@ struct EventListTaskExtracted: View {
             VStack(alignment: .leading){
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(taskApp.isCompleted ? .green700.mix(with: .black, by: 0.1) : .clear)
-                    //                        .stroke(lineWidth: 0.8)
+                        .fill(taskApp.isCompleted ? .green400.mix(with: .black, by: 0.1) : .white)
                         .foregroundStyle(.green700.mix(with: .white, by: 0.5))
                         .frame(height: 70)
                     
@@ -52,7 +51,7 @@ struct EventListTaskExtracted: View {
                         VStack(alignment: .leading) {
                             HStack{
                                 Button {
-                                    withAnimation(.easeIn(duration: 0.4), {
+                                    withAnimation(.easeIn(duration: 1), {
                                         taskApp.showModifiers.toggle()
                                     })
                                     
@@ -61,7 +60,7 @@ struct EventListTaskExtracted: View {
                                         
                                         Text(taskApp.title)
                                             .strikethrough(taskApp.isCompleted)
-                                            .foregroundStyle(taskApp.isCompleted ? .darkblue50:.darkblue900)
+                                            .foregroundStyle(taskApp.isCompleted ? .green900:.darkblue900)
                                             .jakarta(size:12)
                                             .lineLimit(1)
                                         if (taskApp.description != nil) {
@@ -90,42 +89,49 @@ struct EventListTaskExtracted: View {
                                     Spacer()
                                     
                                     if taskApp.isUrgent{
-                                        isUrgentExtracted(urgentColor: .green700)
+                                        VStack {
+                                            Image(systemName: "exclamationmark.triangle")
+                                                .foregroundStyle(taskApp.isCompleted ? .white.opacity(0.7) : .red.mix(with: .gray, by: 0.25))
+                                            
+                                            Text("Urgent")
+                                                .jakarta(size: 10)
+                                                .foregroundStyle(taskApp.isCompleted ? .white.opacity(0.7) : .red.mix(with: .gray, by: 0.25))
+                                            
+                                            
+                                        }
+                                        .padding(.trailing,8)
+                                        .transition(.slide)
+
                                     }
                                 }
+//                                .transition(.slide)
+
+                                .animation(.easeInOut(duration: 0.5), value: taskApp.showModifiers)
                                 
-                                Spacer()
                                 
                                 
                                 if taskApp.showModifiers {
-                                    if !taskApp.isCompleted{
-                                        Button (role: .destructive){
-                                            // va pouvoir supprimer une tâche
-                                        } label: {
-                                            Image("crossDelete")
-                                                .resizable()
-                                                .frame(width:16, height: 16)
-                                        }
-                                        
-                                        Button{
-                                            // va pouvoir modifier la tâche et sa description ainsi que les personnes assignées
-                                        } label: {
-                                            Image(systemName: "pencil.line")
-                                                .font(.system(size: 16))
-                                                .foregroundStyle(.green700)
-                                        }
-                                        .padding(.trailing,16)
-                                    }
-                                    else{
-                                        Button (role: .destructive){
-                                            // va pouvoir supprimer une tâche
+                                    Button {
+                                        // va pouvoir supprimer une tâche
+                                            if tasksList.contains(taskApp){
+                                                tasksList.removeAll { guest in
+                                                    guest.id == taskApp.id
+                                                }
+                                                
+                                            }
                                             
-                                        } label: {
-                                            Image("crossDelete")
-                                                .resizable()
-                                                .frame(width:16, height: 16)
-                                        }
+                                        
+                                        
+                                    } label: {
+                                        Image("crossDelete")
+                                            .resizable()
+                                            .frame(width:20, height: 20)
+                                            .transition(.opacity)
+
                                     }
+                                    .transition(.slide)
+
+                                    
                                 }
                             }
                         }
@@ -137,15 +143,16 @@ struct EventListTaskExtracted: View {
                 }
                 
             }
-            .animation(nil, value: taskApp.isCompleted)
+            //            .animation(.easeIn, value: taskApp.isCompleted)
             Divider()
                 .frame(width: 290, alignment: .trailing)
                 .background(.green500)
             
         }
-        .padding([.top,.bottom],4)
+        .padding([.top,.bottom],2)
     }
 }
+
 
 #Preview {
     EventListTaskExtracted(tasksList: Binding.constant(events[0].tasks))

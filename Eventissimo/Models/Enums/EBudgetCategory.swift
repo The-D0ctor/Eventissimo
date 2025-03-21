@@ -45,7 +45,7 @@ enum EBudgetCategory: String, CaseIterable, Comparable {
         case .rentals:
             return "house.fill"
         case .other:
-            return  "questionmark"
+            return  "seal.fill"
         }
     }
     

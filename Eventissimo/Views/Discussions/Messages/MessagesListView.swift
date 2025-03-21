@@ -16,22 +16,39 @@ struct MessagesListView: View {
     @Binding var messages: [MessageApp]
     var isEvent: Bool = false
     @State var typedText: String = ""
+    var privateConversationId: String?
     
     var body: some View {
+        @Bindable var viewModel: MessagesListViewModel = MessagesListViewModel(dataBase: dataBase)
+        
         ZStack {
             Color.darkblue50.ignoresSafeArea()
             VStack {
-                ScrollView {
-                    ForEach(messages) { message in
-                        if (message.person.id == dataBase.currentUser.id) {
-                            MessageRightDetail(message: message)
-                                .padding(.vertical, 4)
-                        } else {
-                            MessageLeftDetail(message: message, isEvent: isEvent)
-                                .padding(.vertical, 4)
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        ForEach(messages) { message in
+                            if (message.person.id == dataBase.currentUser.id) {
+                                MessageRightDetail(message: message)
+                                    .padding(.vertical, 4)
+                                    .id(message.id)
+                            } else {
+                                MessageLeftDetail(message: message, isEvent: isEvent)
+                                    .padding(.vertical, 4)
+                                    .id(message.id)
+                            }
                         }
+                        .padding(.vertical)
                     }
-                    .padding(.vertical)
+                    .onAppear(perform: {
+                        if (!messages.isEmpty) {
+                            proxy.scrollTo(messages.last!.id, anchor: .bottom)
+                        }
+                    })
+                    .onChange(of: messages, { oldValue, newValue in
+                        if (!newValue.isEmpty) {
+                            proxy.scrollTo(newValue.last!.id, anchor: .bottom)
+                        }
+                    })
                 }
                 HStack {
                     TextField(text: $typedText) {
@@ -40,43 +57,47 @@ struct MessagesListView: View {
                     }
                     .textFieldStyle(.roundedBorder)
                     Button {
-                        messages.append(MessageApp(text: typedText, date: .now, person: dataBase.currentUser))
+                        let messageApp = MessageApp(text: typedText, date: .now, person: dataBase.currentUser)
+                        messages.append(messageApp)
+                        if (privateConversationId != nil) {
+                            viewModel.writeMessage(privateConversationId: privateConversationId!, message: messageApp)
+                        }
                         typedText = ""
                     } label: {
                         HStack {
-//                            Text("Envoyer")
-//                                .jakarta(size: 14)
+                            //                            Text("Envoyer")
+                            //                                .jakarta(size: 14)
                             Image(systemName: "paperplane")
                         }
                         .padding(12)
-                            .background(.green650)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .foregroundStyle(.darkblue50)
+                        .background(.green650)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .foregroundStyle(.darkblue50)
                     }
                 }
                 .padding()
             }
-        }
-        .navigationBarBackButtonHidden()
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "arrow.left")
+                        }
+                        image?
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 36, height: 36)
+                            .clipShape(Circle())
+                        Text(title)
+                            .serif(size: 16)
+                            .fontWeight(.medium)
+                            .padding(.leading, 8)
                     }
-                    image?
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 44, height: 44)
-                        .clipShape(Circle())
-                    Text(title)
-                        .serif(size: 16)
-                        .fontWeight(.medium)
-                        .padding(.leading, 8)
+                    .foregroundColor(.darkblue900)
                 }
-                .foregroundColor(.darkblue900)
             }
         }
     }

@@ -29,7 +29,8 @@ struct BudgetGlobalView: View {
                                 }}}
                     }
                 }
-                .frame(width: .infinity, height: 30)
+                .frame(maxWidth: .infinity)
+                .frame(height: 30)
                 .clipShape(.rect(cornerRadius: 50))
                 HStack{
                     VStack{
@@ -74,12 +75,13 @@ struct BudgetGlobalView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color.green500, lineWidth: 1))
                 }
-                .padding()
+                .padding(.vertical)
                 .foregroundStyle(Color.darkblue700)
                 
                 ForEach(viewModel.listSpendingsByCategory.keys.sorted(), id: \.self) { key in
                     if let spendings = viewModel.listSpendingsByCategory[key]{
                         if !spendings.isEmpty{
+                            
                             HStack{
                                 Circle()
                                     .foregroundStyle(spendings[0].role.color)
@@ -95,7 +97,10 @@ struct BudgetGlobalView: View {
                                     .jakarta(size: 14)
                                     .fontWeight(.light)
                             }
-                        } }}
+                        }
+                        
+                        
+                    }}
             }
             .padding()
             .background(Color.white)
@@ -104,36 +109,14 @@ struct BudgetGlobalView: View {
             
             ForEach(viewModel.listSpendingsByCategory.keys.sorted(), id: \.self) { key in
                 if let spendings = viewModel.listSpendingsByCategory[key]{
-                    if !spendings.isEmpty{
-                        VStack{
-                            HStack{
-                                Image(systemName: spendings[0].role.icon)
-                                Text("\(key.rawValue)")
-                                    .jakarta(size: 14)
-                                    .fontWeight(.bold)
-                                
-                                Spacer()
-                                
-                                Text("\(viewModel.additionSpendingByCategory(listSpendings: spendings), specifier: "%.2f") €")
-                                    .jakarta(size: 14)
-                                    .fontWeight(.semibold)
-                            }
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 12)
-                            .background(key.color)
-                        
-                            VStack{
-                                OneSpending(spend: spendings[0])
-                                ForEach(spendings[1...]){spend in
-                                    Divider()
-                                        .padding(.vertical, 5)
-                                    OneSpending(spend: spend)
-                                }
-                            }
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 8)
-                        }
-                    }
+                    
+                    let spendingsBinding = Binding(
+                                get: { spendings },
+                                set: { viewModel.listSpendingsByCategory[key] = $0 }
+                            )
+
+                    
+                    OneBudgetCategoryView(spendings: spendingsBinding, key: key, viewModel: $viewModel)
                 }
             }
             .background(Color.white)
@@ -146,5 +129,5 @@ struct BudgetGlobalView: View {
 }
 
 #Preview {
-    BudgetGlobalView(viewModel: BudgetViewModel(evenement: events[0]))
+    BudgetGlobalView(viewModel: BudgetViewModel(evenement: events[6]))
 }

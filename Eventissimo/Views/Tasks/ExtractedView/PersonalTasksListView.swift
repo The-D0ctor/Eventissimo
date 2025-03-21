@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PersonalTasksListView: View {
     @Binding var tasksList: [TaskApp]
-    //@State var viewModel = TaskViewModel()
     var body: some View {
         
         ForEach($tasksList) { $taskApp in
@@ -39,7 +38,7 @@ struct PersonalTasksListView: View {
                 VStack(alignment: .leading) {
                     Text(taskApp.title)
                         .strikethrough(taskApp.isCompleted)
-                        .foregroundStyle(taskApp.isCompleted ? .white:.darkblue900)
+                        .foregroundStyle(taskApp.isCompleted ? .green900:.darkblue900)
                         .jakarta(size: 12)
                         .lineLimit(1)
                     
@@ -53,12 +52,19 @@ struct PersonalTasksListView: View {
                 Spacer()
                 
                 if taskApp.isUrgent{
-                    isUrgentExtracted(urgentColor: .red.mix(with: .gray, by: 0.25))
-                    
+                    VStack {
+                        Image(systemName: "exclamationmark.triangle")
+                            .foregroundStyle(taskApp.isCompleted ? .white.opacity(0.7) : .red.mix(with: .gray, by: 0.25))
+                        
+                        Text("Urgent")
+                            .jakarta(size: 10)
+                            .foregroundStyle(taskApp.isCompleted ? .white.opacity(0.7) : .red.mix(with: .gray, by: 0.25))
+                        
+                    }
                 }
             }
             .padding(12)
-            .background(taskApp.isCompleted ? .green700 : .darkblue50)
+            .background(taskApp.isCompleted ? .green400.mix(with: .black, by: 0.1) : .darkblue50)
             .cornerRadius(11)
             .overlay(
                 RoundedRectangle(cornerRadius: 11)

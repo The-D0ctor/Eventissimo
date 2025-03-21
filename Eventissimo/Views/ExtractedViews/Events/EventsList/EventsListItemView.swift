@@ -29,6 +29,7 @@ struct EventsListItemView: View {
                 Text(event.name)
                     .serif(size: 22)
                     .foregroundStyle(.white)
+                    .multilineTextAlignment(.leading)
                 HStack {
                     Image("calendar")
                         .resizable()

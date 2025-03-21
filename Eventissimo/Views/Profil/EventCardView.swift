@@ -35,6 +35,7 @@ struct EventCardView: View {
                 Text(event.name)
                     .serif(size: 18)
                     .foregroundStyle(.white)
+                    .multilineTextAlignment(.leading)
                 HStack {
                     Image("calendar")
                         .resizable()
@@ -47,16 +48,19 @@ struct EventCardView: View {
                     Image("map_pin")
                         .resizable()
                         .scaledToFit()
-                        .scaledToFill()
                         .frame(width: 16, height: 16)
                     Text(event.localization.components(separatedBy: " ").first ?? "")
                         .jakarta(size: 12)
                 }
                 .foregroundStyle(.green500)
             }
-            .padding(.horizontal, 15)
+            
+            .frame(width: 210, height: 310, alignment: .bottomLeading)
+            .padding(.leading, 15)
             .padding(.bottom, 15)
+            
         }
+        
     }
 }
 #Preview {

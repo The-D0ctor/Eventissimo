@@ -9,7 +9,7 @@ import Foundation
 
 
 
-struct Participant: Identifiable {
+struct Participant: Identifiable, Equatable {
     let id: UUID = UUID()
     
     var person: Person

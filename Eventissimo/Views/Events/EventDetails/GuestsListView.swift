@@ -3,12 +3,11 @@ import SwiftUI
 struct GuestsListView: View {
     var dataBase: DataBase
     var selectedChoice: Int = 0
-    @State var viewModel: GuestSelectionViewModel
+    @Binding var event: EventApp
     
     @Environment(\.dismiss) var dismiss
     
     @State var listOptions: PickerChoiceViewModel = PickerChoiceViewModel(listChoices: ["Participent", "Ne participent pas"])
-    //    @State private var showOptions = false
     @State private var showGuestSelectionSheet = false
     
     @State private var invitationLink: String = "eventissimo/1231312/47"
@@ -46,16 +45,21 @@ struct GuestsListView: View {
                             .fill(Color.white)
                         VStack {
                             if listOptions.selectedChoice == 0 {
-                                ForEach(viewModel.event.participants, id: \.person.id) { participant in
-                                    NavigationLink(destination: ProfileView(dataBase: dataBase, person: participant.person).navigationBarBackButtonHidden()) {
-                                        GuestRowView(participant: participant)
+                                ForEach(event.participants.indices, id: \.self) { index in
+                                    
+                                    let participantBinding = $event.participants[index]
+                                    
+                                    NavigationLink(destination: ProfileView(dataBase: dataBase, person: event.participants[index].person).navigationBarBackButtonHidden()) {
+                                        GuestRowView(participant: participantBinding, event: $event, participe: true)
                                     }
                                     Divider()
                                 }
-                            } else {
-                                ForEach(viewModel.event.nonParticipants, id: \.person.id) { participant in
-                                    NavigationLink(destination: ProfileView(dataBase: dataBase, person: participant.person).navigationBarBackButtonHidden()) {
-                                        GuestRowView(participant: participant)
+                            }
+                            else {
+                                ForEach(event.nonParticipants.indices, id: \.self) { index in
+                                    let nonParticipantBinding = $event.nonParticipants[index]
+                                    NavigationLink(destination: ProfileView(dataBase: dataBase, person: event.nonParticipants[index].person).navigationBarBackButtonHidden()) {
+                                        GuestRowView(participant: nonParticipantBinding, event: $event, participe: false)
                                     }
                                     Divider()
                                 }
@@ -128,7 +132,7 @@ struct GuestsListView: View {
         .background(Color.darkblue50)
         .navigationBarBackButtonHidden(true)
         .sheet(isPresented: $showGuestSelectionSheet) {
-            GuestSelectionSheet(viewModel: $viewModel)
+            GuestSelectionSheet(event: $event)
         }
         .gesture(TapGesture().onEnded {
             withAnimation {
@@ -144,5 +148,5 @@ struct GuestsListView: View {
 
 
 #Preview {
-    GuestsListView(dataBase: DataBase(), selectedChoice: 0, viewModel: GuestSelectionViewModel(event: events[1]))
+    GuestsListView(dataBase: DataBase(), selectedChoice: 0, event: Binding.constant(events[0]))
 }

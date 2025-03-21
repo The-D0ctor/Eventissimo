@@ -44,7 +44,7 @@ struct EventPageView: View {
                     
                     VStack {
                         PickerChoices(choices: listOptions)
-                        NavigationLink(destination: GuestsListView(dataBase: dataBase, selectedChoice: listOptions.selectedChoice, viewModel: GuestSelectionViewModel(event: event))) {
+                        NavigationLink(destination: GuestsListView(dataBase: dataBase, event: $event)) {
                             if listOptions.selectedChoice == 0 {
                                 ParticipantsView(participants: event.participants, isBlackAndWhite: false)
                             } else {
